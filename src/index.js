@@ -24,14 +24,14 @@ import {BrowserRouter} from 'react-router-dom';
 // }
 // ReactDOM.render(<SearchCard petMeta={petMeta}/>, document.getElementById('root'));
 
-// // -----------------------[单元测试] 测试详细信息栏-----------------------
-// import DetailList from './components/DetailList/detailList'
-// const details = [
-//   {header:'基本信息', context:'苏格兰折耳猫的耳朵竟是整齐地扣在头上，于是很自然地人们在头脑中把它们划到了精灵族的一边，猫猫中的折耳精灵族非它莫属'},
-//   {header:'性格特点', context:'苏格兰折耳猫诞生于苏格兰的一户农家，它属于基因变种的猫咪。它的耳朵整齐地扣在头上，为此人们也形象的给它命名为“苏格兰折耳猫”。这种猫咪最独特的外表就是它有着一双折起的耳朵，而且还吸引了众多爱猫者的关注。'},
-//   {header:'生活习性', context:'无论是长毛还是短毛，折耳猫的被毛都是非常厚的，所以最好每天都替它们梳理，这样可以保持被毛亮丽并且去除死毛。'},
-// ]
-// ReactDOM.render(<DetailList details={details}/>, document.getElementById('root'));
+// -----------------------[单元测试] 测试详细信息栏-----------------------
+import DetailList from './components/DetailList/detailList'
+const details = [
+  {header:'基本信息', context:'苏格兰折耳猫的耳朵竟是整齐地扣在头上，于是很自然地人们在头脑中把它们划到了精灵族的一边，猫猫中的折耳精灵族非它莫属'},
+  {header:'性格特点', context:'苏格兰折耳猫诞生于苏格兰的一户农家，它属于基因变种的猫咪。它的耳朵整齐地扣在头上，为此人们也形象的给它命名为“苏格兰折耳猫”。这种猫咪最独特的外表就是它有着一双折起的耳朵，而且还吸引了众多爱猫者的关注。'},
+  {header:'生活习性', context:'无论是长毛还是短毛，折耳猫的被毛都是非常厚的，所以最好每天都替它们梳理，这样可以保持被毛亮丽并且去除死毛。'},
+]
+ReactDOM.render(<DetailList details={details}/>, document.getElementById('root'));
 
 
 // If you want to start measuring performance in your app, pass a function
