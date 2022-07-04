@@ -1,9 +1,21 @@
 .logo{
-    width: 330px;
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: contain;
-    object-position: center bottom;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+   
+}
+.rank1{
+    width: 20px;
+    height: 20px;
+}
+.font{
+    width: 300px;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
 }
 .search{
     border-radius: 24px;
@@ -27,8 +39,8 @@
     width: 70%;
 }
 .div5{
-    font-size: 18px;
-    margin: 50px;
+    
+    color: rgb(141, 140, 140);
 }
 .div4{
     width: 1200px;
@@ -49,11 +61,17 @@
 
 }
 .div2{
-    display: flex;
-    align-items: center;
-    align-self: end;
-    padding: 6px;
-    height: 80px;
-    flex-shrink: 0;
-    box-sizing: border-box;
+    
+    text-align: center;
+    height: 32px;
+    line-height: 32px;
+}
+.dog{
+    width: 350px;
+}
+.p{
+    width: 100px;
+}
+.font1{
+    padding-top: 7px;
 }

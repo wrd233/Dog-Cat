@@ -1,0 +1,37 @@
+.div3{
+    background: #fff;
+    display: flex;
+    border: 2px solid #000000;
+    box-shadow: none;
+    border-radius: 24px;
+    z-index: 3;
+    height: 44px;
+    margin: 0 auto;
+    width: 800px;
+    max-width: 584px;
+    margin-top: 12px;
+}
+.logo1{
+    width: 100px;
+    height: 70px;
+    display: flex;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+ 
+}
+.outlogo{
+    padding-left: 25px;
+}
+.infor{
+
+    padding-left: 480px;
+    font-size: 17px;
+}
+.citu{
+    padding-left: 120px;
+    font-family: cursive;
+    font-size: 30px;
+    font-weight: 900;
+    color: #262626;
+}
