@@ -71,7 +71,19 @@ const detailForList = [
 
 class Showpage extends react.Component{
   state = {
-
+    petid:this.props.id,
+    QAitems:[],
+    starList:[],
+    detailForTable:[],
+    detailForList:[]
+  }
+  componentWillMount () {
+    this.setState({
+        QAitems:QAitems,
+        starList:starList,
+        detailForTable:detailForTable,
+        detailForList:detailForList
+    })
   }
   render(){
     return(
@@ -87,12 +99,12 @@ class Showpage extends react.Component{
         <Row>
             <Col span={8}>照片？</Col>
             <Col span={16}>
-                <DetailTable details={detailForTable}/>
-                <Stars starList={starList}/>
+                <DetailTable details={this.state.detailForTable}/>
+                <Stars starList={this.state.starList}/>
             </Col>
         </Row>
-        <DetailList details={detailForList}/>
-        <QAlist QAitems={QAitems}/>
+        <DetailList details={this.state.detailForList}/>
+        <QAlist QAitems={this.state.QAitems}/>
 
 
 
