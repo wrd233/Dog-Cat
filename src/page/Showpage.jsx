@@ -71,13 +71,18 @@ const detailForList = [
 
 class Showpage extends react.Component{
   state = {
-    petid:this.props.id,
+    petid:this.props.location.state.id,
     QAitems:[],
     starList:[],
     detailForTable:[],
     detailForList:[]
   }
   componentWillMount () {
+
+    axios.post('http://192.168.43.40:8080/showpage',this.state.id)
+    .then(function(response){
+        console.log(response)
+    })
     this.setState({
         QAitems:QAitems,
         starList:starList,
