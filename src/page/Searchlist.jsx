@@ -16,9 +16,10 @@ class Searchlist extends React.Component{
     description=[]
     content=[]
     href=[]
+    id=[]
     state={
         hot10:[],
-        id:[],
+        id:0,
         length:0,
         drawer_visible:false,
         pictures:[],
@@ -34,123 +35,138 @@ class Searchlist extends React.Component{
             pic:this.pic_url[i],
             description:this.description[i],
             content:this.content[i], 
+            id:this.id[i]
           })),
         
           
     }
       componentWillMount () {
-        //    this.pic_url=['http://img.ixiupet.com/uploads/150309/2-15030920514b57.jpg','http://img.ixiupet.com/uploads/allimg/150617/3-15061G055460-L.jpg',
-        // 'http://img.ixiupet.com/uploads/150410/2-150410144413b3.jpg']
-        // this.title=['苏格兰折耳猫','美国恶霸犬','法国斗牛犬']
-        // this.description=['美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型',
-        // '美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型',
-        // '美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型'
-        // ]
-        // this.content=['苏格兰折耳猫的耳朵竟是整齐地扣在头上，于是很自然地人们在头脑中把它们划到了精灵族的一边，猫猫中的折耳精灵族非它莫属。',
-        // '美国恶霸这个犬种创立于90年代中期，以培育成家庭伴侣犬为最终目的。',
-        // '法国斗牛犬(FRENCH BULLDOG)是一种活泼、聪明、肌肉发达的狗，骨骼沉重，被毛平滑、结构紧凑，体型中等或较小。']
-        // this.href=['https://www.ixiupet.com/mmpz/199/','https://www.ixiupet.com/ggpz/3106/','https://www.ixiupet.com/ggpz/892/']
-        console.log(123213123)
-        console.log(this.state)
-        let _this=this
-        let data
-        if(this.state.input===''){
-            axios.post('http://192.168.43.40:8080/homepage_2',{
-                pet_size:this.state.pet_size,
-                pet_species:this.state.pet_species,
-                min_price:this.state.min_price,
-                max_price:this.state.max_price,
-            })
-                .then(function (response) {
-                     data = response.data
-                    console.log("response:"+response)
-                    if (response.status === 200){  
-                        data.map((item,index)=>{
-                            _this.pic_url.push(item.url)
-                            _this.title.push(item.name)
-                            _this.id.push(item.id)
-                            _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
-                            _this.content.push(item.information)
-                        })
-                    }
-                    else{
-                        message.warning('请求错误,请稍后再试', 2)
-                    }
-                }).then(()=>{
-                    this.setState({
-                        length:data.length,
-                        data: Array.from({ length: this.state.length }).map((_, i) => ({
-                            href: this.href[i],
-                            title: this.title[i],
-                            pic:this.pic_url[i],
-                            description:this.description[i],
-                            content:this.content[i], 
-                          })),
-                    })
-                }).then(()=>{
-                    axios.post('http://192.168.43.40:8080/hot10').then(function (response){
-                         data = response.data
-                    })
-                }).then(()=>{
-                    this.setState({
-                        hot10:data
-                    })
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
-        else{
-            axios({
-                method:'post',
-                url:'http://192.168.43.40:8080/homepage_1',
-                params:{
-                    input:this.state.input
-                }
-            })
-                .then(function (response) {
-                     data = response.data
+        this.pic_url=['http://img.ixiupet.com/uploads/150309/2-15030920514b57.jpg','http://img.ixiupet.com/uploads/allimg/150617/3-15061G055460-L.jpg',
+        'http://img.ixiupet.com/uploads/150410/2-150410144413b3.jpg']
+        this.title=['苏格兰折耳猫','美国恶霸犬','法国斗牛犬']
+        this.description=['美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型',
+        '美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型',
+        '美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型'
+        ]
+        this.content=['苏格兰折耳猫的耳朵竟是整齐地扣在头上，于是很自然地人们在头脑中把它们划到了精灵族的一边，猫猫中的折耳精灵族非它莫属。',
+        '美国恶霸这个犬种创立于90年代中期，以培育成家庭伴侣犬为最终目的。',
+        '法国斗牛犬(FRENCH BULLDOG)是一种活泼、聪明、肌肉发达的狗，骨骼沉重，被毛平滑、结构紧凑，体型中等或较小。']
+        this.href=['https://www.ixiupet.com/mmpz/199/','https://www.ixiupet.com/ggpz/3106/','https://www.ixiupet.com/ggpz/892/']
+        this.id=[244,125,256]
+        this.setState({
+          
+            data: Array.from({ length: 3 }).map((_, i) => ({
+                href: this.href[i],
+                title: this.title[i],
+                pic:this.pic_url[i],
+                description:this.description[i],
+                content:this.content[i], 
+                id:this.id[i]
+              })),
+        })
+        
+        
+        // console.log(123213123)
+        // console.log(this.state)
+        // let _this=this
+        // let data
+        // if(this.state.input===''){
+        //     axios.post('http://192.168.43.40:8080/homepage_2',{
+        //         pet_size:this.state.pet_size,
+        //         pet_species:this.state.pet_species,
+        //         min_price:this.state.min_price,
+        //         max_price:this.state.max_price,
+        //     })
+        //         .then(function (response) {
+        //              data = response.data
+        //             console.log("response:"+response)
+        //             if (response.status === 200){  
+        //                 data.map((item,index)=>{
+        //                     _this.pic_url.push(item.url)
+        //                     _this.title.push(item.name)
+        //                     _this.id.push(item.id)
+        //                     _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
+        //                     _this.content.push(item.information)
+        //                 })
+        //             }
+        //             else{
+        //                 message.warning('请求错误,请稍后再试', 2)
+        //             }
+        //         }).then(()=>{
+        //             this.setState({
+        //                 length:data.length,
+        //                 data: Array.from({ length: this.state.length }).map((_, i) => ({
+        //                     href: this.href[i],
+        //                     title: this.title[i],
+        //                     pic:this.pic_url[i],
+        //                     description:this.description[i],
+        //                     content:this.content[i], 
+        //                   })),
+        //             })
+        //         }).then(()=>{
+        //             axios.post('http://192.168.43.40:8080/hot10').then(function (response){
+        //                  data = response.data
+        //             })
+        //         }).then(()=>{
+        //             this.setState({
+        //                 hot10:data
+        //             })
+        //         })
+        //         .catch(function (error) {
+        //             console.log(error);
+        //         });
+        // }
+        // else{
+        //     axios({
+        //         method:'post',
+        //         url:'http://192.168.43.40:8080/homepage_1',
+        //         params:{
+        //             input:this.state.input
+        //         }
+        //     })
+        //         .then(function (response) {
+        //              data = response.data
                     
-                    console.log(response)
-                    if (response.status === 200){
+        //             console.log(response)
+        //             if (response.status === 200){
                         
-                        data.map((item,index)=>{
-                            console.log(232342424)
-                            console.log(item.url)
-                            _this.pic_url.push(item.url)
-                            _this.title.push(item.name)
-                            _this.id.push(item.id)
-                            _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
-                            _this.content.push(item.information)
-                        })
-                    }
-                    else{
-                        message.warning('请求错误,请稍后再试', 2)
-                    }
-                }).then(()=>{
-                    this.setState({
-                        length:data.length,
-                        data: Array.from({ length: this.state.length }).map((_, i) => ({
-                            href: this.href[i],
-                            title: this.title[i],
-                            pic:this.pic_url[i],
-                            description:this.description[i],
-                            content:this.content[i], 
-                          })),
-                    })
-                }).then(()=>{
-                    axios.post('http://192.168.43.40:8080/hot10').then(function (response){
-                         data = response.data
-                    })
-                }).then(()=>{
-                    this.setState({
-                        hot10:data
-                    })
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
+        //                 data.map((item,index)=>{
+        //                     console.log(232342424)
+        //                     console.log(item.url)
+        //                     _this.pic_url.push(item.url)
+        //                     _this.title.push(item.name)
+        //                     _this.id.push(item.id)
+        //                     _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
+        //                     _this.content.push(item.information)
+        //                 })
+        //             }
+        //             else{
+        //                 message.warning('请求错误,请稍后再试', 2)
+        //             }
+        //         }).then(()=>{
+        //             this.setState({
+        //                 length:data.length,
+        //                 data: Array.from({ length: this.state.length }).map((_, i) => ({
+        //                     href: this.href[i],
+        //                     title: this.title[i],
+        //                     pic:this.pic_url[i],
+        //                     description:this.description[i],
+        //                     content:this.content[i], 
+        //                   })),
+        //             })
+        //         }).then(()=>{
+        //             axios.post('http://192.168.43.40:8080/hot10').then(function (response){
+        //                  data = response.data
+        //             })
+        //         }).then(()=>{
+        //             this.setState({
+        //                 hot10:data
+        //             })
+        //         })
+        //         .catch(function (error) {
+        //             console.log(error);
+        //         });
+        // }
    
     
         
@@ -195,7 +211,13 @@ class Searchlist extends React.Component{
         })
       }
       todetail=(e)=>{
-          console.log(e.target.innerText)
+          console.log(e.target.id)
+            this.setState({
+                id:e.target.id
+            })
+          this.props.history.push({ pathname : '/showpage' , state : { 
+            id : this.state.id,
+          }})
       }
       wordOption = () => {
     
@@ -427,7 +449,7 @@ class Searchlist extends React.Component{
                     >
                         <List.Item.Meta
                         
-                        title={<a onClick={this.todetail}>{item.title}</a>}
+                        title={<a onClick={this.todetail} id={item.id}>{item.title}</a>}
                         description={item.description}
                         />
                         {item.content}
