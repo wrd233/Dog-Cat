@@ -132,7 +132,8 @@ class Homepage extends react.Component{
       pet_size :  this.state.pet_size,
       pet_species:this.state.pet_species,
       min_price:this.state.min_price,
-      max_price:this.state.max_price
+      max_price:this.state.max_price,
+      country:this.state.country
     }})
   }
   adsearch=(e)=>{
