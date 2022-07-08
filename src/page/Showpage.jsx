@@ -3,7 +3,7 @@ import {Breadcrumb, Layout, Menu} from 'antd';
 import '../css/Showpage.css'
 import 'antd/dist/antd.css';
 import {RightOutlined,CrownTwoTone,BarChartOutlined ,GithubOutlined,InfoCircleTwoTone,StarOutlined,ShareAltOutlined } from '@ant-design/icons';
-import { Card, Col, Row ,message} from 'antd';
+import { Card, Col, Row ,message, Image} from 'antd';
 import Logo from '../image/logo.svg'
 import axios from "axios";
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
@@ -71,11 +71,14 @@ const detailForList = [
 
 class Showpage extends react.Component{
   state = {
-    petId:this.props.location.state.id,
+    // petId:this.props.location.state.id,
     QAitems:[],
     starList:[],
     detailForTable:[],
-    detailForList:[]
+    detailForList:[],
+    picture:"http://img.ixiupet.com/uploads/allimg/150403/2-150403152148.jpg",
+    price:"1300-6500",
+    name:"博美犬/松鼠犬"
   }
 componentWillMount () {
     console.log(this.state.petId)
@@ -83,14 +86,57 @@ componentWillMount () {
     // .then(function(response){
     //     console.log(response)
     // })
+
+
     
-    axios({
-        method:'get',
-        url:'http://192.168.43.40:8080/showpage?id='+this.state.petId, 
-    }).then(function(response){
-        console.log("显示页面元素内容")
-        console.log(response)
-    })
+    // axios({
+    //     method:'get',
+    //     url:'http://192.168.43.40:8080/showpage?id='+this.state.petId, 
+    // }).then(function(response){
+    //     this.setState({
+    //         picture:response.data.picture,
+    //         price:response.data.price,
+    //         name:response.data.species
+    //     })
+    //     /*--------- 组装starList ---------*/
+    //     starList.push({key:"粘人程度",value:response.data.clingyLevel})
+    //     starList.push({key:"喜叫程度",value:response.data.noisyLevel})
+    //     starList.push({key:"友善程度",value:response.data.friendLevel})
+    //     starList.push({key:"掉毛程度",value:response.data.hairShedLevel})
+    //     starList.push({key:"美容程度",value:response.data.cosmetologyLevel})
+    //     starList.push({key:"体味程度",value:response.data.odourLevel})
+    //     starList.push({key:"口水程度",value:response.data.slobberLevel})
+
+    //     starList.push({key:"可训程度",value:response.data.trainLevel})
+    //     starList.push({key:"活跃程度",value:response.data.activeLevel})
+    //     starList.push({key:"友善程度",value:response.data.cityLevel})
+    //     starList.push({key:"城市适度",value:response.data.coldLevel})
+    //     starList.push({key:"耐寒程度",value:response.data.heatLevel})
+    //     starList.push({key:"耐热程度",value:response.data.sportsLevel})
+    //     starList.push({key:"运动程度",value:response.data.information})
+
+    //     // ToDo:遍历一遍列表，把value是非数字的项替换为0
+
+    //     /*--------- 组装detailForTable ---------*/
+    //     detailForTable.push({key:"中文学名",value:response.data.chineseName})
+    //     detailForTable.push({key:"别名",value:response.data.alias})
+    //     detailForTable.push({key:"分布区域",value:response.data.region})
+    //     detailForTable.push({key:"原产地",value:response.data.habitat})
+    //     detailForTable.push({key:"体型",value:response.data.shape})
+    //     detailForTable.push({key:"身高",value:response.data.height})
+    //     detailForTable.push({key:"体重",value:response.data.weight})
+    //     detailForTable.push({key:"寿命",value:response.data.lifetime})
+    //     // ToDo:遍历一遍列表，把字符间的空格统一一下
+    //     /*--------- 组装detailForList ---------*/
+    //     detailForList.push({header:"基本信息",context:response.data.information})
+    //     detailForList.push({header:"性格特点",context:response.data.characteristics})
+    //     detailForList.push({header:"生活习性",context:response.data.habits})
+    //     detailForList.push({header:"优点缺点",context:response.data.advAndDis})
+    //     detailForList.push({header:"喂养方法",context:response.data.feeding})
+    //     detailForList.push({header:"甄别挑选",context:response.data.picking})
+    //     /*--------- 组装QAitems ---------*/
+
+    // })
 
     this.setState({
         QAitems:QAitems,
@@ -111,8 +157,17 @@ componentWillMount () {
         }}
         >
         <Row>
-            <Col span={8}>照片？</Col>
+            <Col span={8} align="middle">
+            <Image
+                width={200}
+                src={this.state.picture}
+            />
+            </Col>
             <Col span={16}>
+                <h1>{this.state.name}</h1>
+                <p>
+                    参考价格:<strong>{this.state.price}</strong>
+                </p>
                 <DetailTable details={this.state.detailForTable}/>
                 <Stars starList={this.state.starList}/>
             </Col>

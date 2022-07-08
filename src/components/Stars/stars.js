@@ -19,7 +19,7 @@ class Stars extends Component{
         for (let elmt of this.state.starList) {
             starElements.push(
                 <Descriptions.Item label={elmt.key}>
-                    <Rate allowHalf defaultValue={elmt.value}/>
+                    <Rate disabled allowHalf defaultValue={elmt.value}/>
                 </Descriptions.Item>
             )
         }

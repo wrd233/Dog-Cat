@@ -72,7 +72,7 @@ class QAlist extends Component{
                 </List.Item>
                 )}
             />
-            <Drawer title="问答详情" placement="right" onClose={this.onClose} visible={this.state.visible}>
+            <Drawer title="问答详情" placement="bottom" onClose={this.onClose} visible={this.state.visible}>
                 {/* {answerElements} */}
                 <List
                     itemLayout="horizontal"
