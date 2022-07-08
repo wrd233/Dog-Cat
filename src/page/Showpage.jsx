@@ -71,18 +71,27 @@ const detailForList = [
 
 class Showpage extends react.Component{
   state = {
-    petid:this.props.location.state.id,
+    petId:this.props.location.state.id,
     QAitems:[],
     starList:[],
     detailForTable:[],
     detailForList:[]
   }
-  componentWillMount () {
-
-    axios.post('http://192.168.43.40:8080/showpage',this.state.id)
-    .then(function(response){
+componentWillMount () {
+    console.log(this.state.petId)
+    // axios.post('http://192.168.43.40:8080/showpage',{id:this.state.id})
+    // .then(function(response){
+    //     console.log(response)
+    // })
+    
+    axios({
+        method:'get',
+        url:'http://192.168.43.40:8080/showpage?id='+this.state.petId, 
+    }).then(function(response){
+        console.log("显示页面元素内容")
         console.log(response)
     })
+
     this.setState({
         QAitems:QAitems,
         starList:starList,

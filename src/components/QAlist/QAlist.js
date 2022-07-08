@@ -1,5 +1,5 @@
 import React,{Component, Modal } from 'react';
-import { Avatar, List, Drawer, Descriptions } from 'antd';
+import { Avatar, List, Drawer, Descriptions,Skeleton,Space } from 'antd';
 
 
 /*
@@ -73,7 +73,26 @@ class QAlist extends Component{
                 )}
             />
             <Drawer title="问答详情" placement="right" onClose={this.onClose} visible={this.state.visible}>
-                {answerElements}
+                {/* {answerElements} */}
+                <List
+                    itemLayout="horizontal"
+                    dataSource={this.state.answersToShow}
+                    renderItem={item => (
+                    <List.Item>
+                        <Skeleton avatar title={false} loading={item.loading} active>
+                        <List.Item.Meta
+                            // avatar={<Avatar src={item.picture.large} />}
+                            title="用户名"
+                            // description={item.content}
+                        />
+                            <Space>
+                                {item.content}
+                            </Space>
+                        {item.content}
+                        </Skeleton>
+                    </List.Item>
+                    )}
+                    />
             </Drawer>
             </>
         );

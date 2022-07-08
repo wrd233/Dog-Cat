@@ -52,9 +52,8 @@ class Searchlist extends React.Component{
         '美国恶霸这个犬种创立于90年代中期，以培育成家庭伴侣犬为最终目的。',
         '法国斗牛犬(FRENCH BULLDOG)是一种活泼、聪明、肌肉发达的狗，骨骼沉重，被毛平滑、结构紧凑，体型中等或较小。']
         this.href=['https://www.ixiupet.com/mmpz/199/','https://www.ixiupet.com/ggpz/3106/','https://www.ixiupet.com/ggpz/892/']
-        this.id=[244,125,256]
+        this.id=[356,333,345]
         this.setState({
-          
             data: Array.from({ length: 3 }).map((_, i) => ({
                 href: this.href[i],
                 title: this.title[i],
@@ -216,7 +215,7 @@ class Searchlist extends React.Component{
                 id:e.target.id
             })
           this.props.history.push({ pathname : '/showpage' , state : { 
-            id : this.state.id,
+            id : e.target.id,
           }})
       }
       wordOption = () => {
