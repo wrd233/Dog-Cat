@@ -23,8 +23,8 @@ class Searchlist extends React.Component{
         length:0,
         drawer_visible:false,
         pictures:[],
-        pet_species:1,
-        pet_size:4,
+        pet_species:this.props.location.state.pet_species,
+        pet_size:this.props.location.state.pet_size,
         min_price:this.props.location.state.min_price,
         max_price:this.props.location.state.max_price,
         country:this.props.location.state.country,
@@ -37,135 +37,288 @@ class Searchlist extends React.Component{
             content:this.content[i], 
             id:this.id[i]
           })),
+         option:{
+            backgroundColor: "#fff",
+            tooltip: {
+              pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>"
+            },
+            series: [
+              {
+                shape: 'circle',
+                type: "wordCloud",
+                gridSize: 1,
+                // Text size range which the value in data will be mapped to.
+                // Default to have minimum 12px and maximum 60px size.
+                sizeRange: [12, 60],
+                // Text rotation range and step in degree. Text will be rotated randomly in range [-90,90] by rotationStep 45
+                rotationRange: [-45, 0, 45, 90],
+                // 呈现形状图片， 可选
+                drawOutOfBound: false,
+                layoutAnimation: true,
+                textStyle: {
+                  fontFamily: 'sans-serif',
+                  fontWeight: 'bold',
+                  // Color can be a callback function or a color string
+                  color: function () {
+                      // Random color
+                      return 'rgb(' + [
+                          Math.round(Math.random() * 160),
+                          Math.round(Math.random() * 160),
+                          Math.round(Math.random() * 160)
+                      ].join(',') + ')';
+                  }
+                      },
+                      emphasis: {
+                          focus: 'self',
+                          textStyle: {
+                              textShadowBlur: 10,
+                              textShadowColor: '#333'
+                          }
+                      },
+                left: "center",
+                top: "center",
+                right: null,
+                bottom: null,
+                data: [],
+              }
+            ]
+          }
         
           
     }
       componentWillMount () {
-        this.pic_url=['http://img.ixiupet.com/uploads/150309/2-15030920514b57.jpg','http://img.ixiupet.com/uploads/allimg/150617/3-15061G055460-L.jpg',
-        'http://img.ixiupet.com/uploads/150410/2-150410144413b3.jpg']
-        this.title=['苏格兰折耳猫','美国恶霸犬','法国斗牛犬']
-        this.description=['美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型',
-        '美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型',
-        '美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型'
-        ]
-        this.content=['苏格兰折耳猫的耳朵竟是整齐地扣在头上，于是很自然地人们在头脑中把它们划到了精灵族的一边，猫猫中的折耳精灵族非它莫属。',
-        '美国恶霸这个犬种创立于90年代中期，以培育成家庭伴侣犬为最终目的。',
-        '法国斗牛犬(FRENCH BULLDOG)是一种活泼、聪明、肌肉发达的狗，骨骼沉重，被毛平滑、结构紧凑，体型中等或较小。']
-        this.href=['https://www.ixiupet.com/mmpz/199/','https://www.ixiupet.com/ggpz/3106/','https://www.ixiupet.com/ggpz/892/']
-        this.id=[356,333,345]
-        this.setState({
-            data: Array.from({ length: 3 }).map((_, i) => ({
-                href: this.href[i],
-                title: this.title[i],
-                pic:this.pic_url[i],
-                description:this.description[i],
-                content:this.content[i], 
-                id:this.id[i]
-              })),
-        })
+        // this.pic_url=['http://img.ixiupet.com/uploads/150309/2-15030920514b57.jpg','http://img.ixiupet.com/uploads/allimg/150617/3-15061G055460-L.jpg',
+        // 'http://img.ixiupet.com/uploads/150410/2-150410144413b3.jpg']
+        // this.title=['苏格兰折耳猫','美国恶霸犬','法国斗牛犬']
+        // this.description=['美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型',
+        // '美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型',
+        // '美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型'
+        // ]
+        // this.content=['苏格兰折耳猫的耳朵竟是整齐地扣在头上，于是很自然地人们在头脑中把它们划到了精灵族的一边，猫猫中的折耳精灵族非它莫属。',
+        // '美国恶霸这个犬种创立于90年代中期，以培育成家庭伴侣犬为最终目的。',
+        // '法国斗牛犬(FRENCH BULLDOG)是一种活泼、聪明、肌肉发达的狗，骨骼沉重，被毛平滑、结构紧凑，体型中等或较小。']
+        // this.href=['https://www.ixiupet.com/mmpz/199/','https://www.ixiupet.com/ggpz/3106/','https://www.ixiupet.com/ggpz/892/']
+        // this.id=[244,125,256]
+        // this.setState({
+          
+        //     data: Array.from({ length: 3 }).map((_, i) => ({
+        //         href: this.href[i],
+        //         title: this.title[i],
+        //         pic:this.pic_url[i],
+        //         description:this.description[i],
+        //         content:this.content[i], 
+        //         id:this.id[i]
+        //       })),
+        // })
         
         
-        // console.log(123213123)
-        // console.log(this.state)
-        // let _this=this
-        // let data
-        // if(this.state.input===''){
-        //     axios.post('http://192.168.43.40:8080/homepage_2',{
-        //         pet_size:this.state.pet_size,
-        //         pet_species:this.state.pet_species,
-        //         min_price:this.state.min_price,
-        //         max_price:this.state.max_price,
-        //     })
-        //         .then(function (response) {
-        //              data = response.data
-        //             console.log("response:"+response)
-        //             if (response.status === 200){  
-        //                 data.map((item,index)=>{
-        //                     _this.pic_url.push(item.url)
-        //                     _this.title.push(item.name)
-        //                     _this.id.push(item.id)
-        //                     _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
-        //                     _this.content.push(item.information)
-        //                 })
-        //             }
-        //             else{
-        //                 message.warning('请求错误,请稍后再试', 2)
-        //             }
-        //         }).then(()=>{
-        //             this.setState({
-        //                 length:data.length,
-        //                 data: Array.from({ length: this.state.length }).map((_, i) => ({
-        //                     href: this.href[i],
-        //                     title: this.title[i],
-        //                     pic:this.pic_url[i],
-        //                     description:this.description[i],
-        //                     content:this.content[i], 
-        //                   })),
-        //             })
-        //         }).then(()=>{
-        //             axios.post('http://192.168.43.40:8080/hot10').then(function (response){
-        //                  data = response.data
-        //             })
-        //         }).then(()=>{
-        //             this.setState({
-        //                 hot10:data
-        //             })
-        //         })
-        //         .catch(function (error) {
-        //             console.log(error);
-        //         });
-        // }
-        // else{
-        //     axios({
-        //         method:'post',
-        //         url:'http://192.168.43.40:8080/homepage_1',
-        //         params:{
-        //             input:this.state.input
-        //         }
-        //     })
-        //         .then(function (response) {
-        //              data = response.data
-                    
-        //             console.log(response)
-        //             if (response.status === 200){
-                        
-        //                 data.map((item,index)=>{
-        //                     console.log(232342424)
-        //                     console.log(item.url)
-        //                     _this.pic_url.push(item.url)
-        //                     _this.title.push(item.name)
-        //                     _this.id.push(item.id)
-        //                     _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
-        //                     _this.content.push(item.information)
-        //                 })
-        //             }
-        //             else{
-        //                 message.warning('请求错误,请稍后再试', 2)
-        //             }
-        //         }).then(()=>{
-        //             this.setState({
-        //                 length:data.length,
-        //                 data: Array.from({ length: this.state.length }).map((_, i) => ({
-        //                     href: this.href[i],
-        //                     title: this.title[i],
-        //                     pic:this.pic_url[i],
-        //                     description:this.description[i],
-        //                     content:this.content[i], 
-        //                   })),
-        //             })
-        //         }).then(()=>{
-        //             axios.post('http://192.168.43.40:8080/hot10').then(function (response){
-        //                  data = response.data
-        //             })
-        //         }).then(()=>{
-        //             this.setState({
-        //                 hot10:data
-        //             })
-        //         })
-        //         .catch(function (error) {
-        //             console.log(error);
-        //         });
-        // }
+  
+        let _this=this
+        let data
+        let hot10
+        if(this.state.input===undefined){
+            axios({
+                method:'post',
+                url:'http://192.168.43.40:8080/homepage_2',
+                params:{
+                    pet_size:this.state.pet_size,
+                    pet_species:this.state.pet_species,
+                    min_price:this.state.min_price,
+                    max_price:this.state.max_price,
+                    country:this.state.country
+                }
+            })
+                .then(function (response) {
+                    if (response.status === 200){  
+                        data = response.data
+                    }
+                    else{
+                        message.warning('请求错误,请稍后再试', 2)
+                    }
+                }).then(()=>{
+                    data.map((item,index)=>{
+                        _this.pic_url.push(item.url)
+                        _this.title.push(item.name)
+                        _this.id.push(item.id)
+                        _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
+                        _this.content.push(item.information)
+                    })
+                }).then(()=>{
+                    this.setState({
+                        length:data.length,
+                        data: Array.from({ length: data.length }).map((_, i) => ({
+                            href: this.href[i],
+                            title: this.title[i],
+                            pic:this.pic_url[i],
+                            description:this.description[i],
+                            content:this.content[i], 
+                          })),
+                    })
+                }).then(()=>{
+                    axios.get('http://192.168.43.40:8080/hot10')
+                    .then(function (response){
+                        if(response.status===200)
+                         hot10 = response.data
+                        else
+                        message.error('hot10获取失败')
+                    })
+                .then(()=>{
+                    console.log(99999999)
+                    console.log(hot10)
+                    this.setState({
+                        option:{
+                            backgroundColor: "#fff",
+                            tooltip: {
+                              pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>"
+                            },
+                            series: [
+                              {
+                                shape: 'circle',
+                                type: "wordCloud",
+                                gridSize: 1,
+                                // Text size range which the value in data will be mapped to.
+                                // Default to have minimum 12px and maximum 60px size.
+                                sizeRange: [12, 60],
+                                // Text rotation range and step in degree. Text will be rotated randomly in range [-90,90] by rotationStep 45
+                                rotationRange: [-45, 0, 45, 90],
+                                // 呈现形状图片， 可选
+                                drawOutOfBound: false,
+                                layoutAnimation: true,
+                                textStyle: {
+                                  fontFamily: 'sans-serif',
+                                  fontWeight: 'bold',
+                                  // Color can be a callback function or a color string
+                                  color: function () {
+                                      // Random color
+                                      return 'rgb(' + [
+                                          Math.round(Math.random() * 160),
+                                          Math.round(Math.random() * 160),
+                                          Math.round(Math.random() * 160)
+                                      ].join(',') + ')';
+                                  }
+                                      },
+                                      emphasis: {
+                                          focus: 'self',
+                                          textStyle: {
+                                              textShadowBlur: 10,
+                                              textShadowColor: '#333'
+                                          }
+                                      },
+                                left: "center",
+                                top: "center",
+                                right: null,
+                                bottom: null,
+                                data: hot10,
+                              }
+                            ]
+                          }
+                    })
+                })
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+        else{
+            axios({
+                method:'post',
+                url:'http://192.168.43.40:8080/homepage_1',
+                params:{
+                    input:this.state.input
+                }
+            })
+                .then(function (response) {
+       
+                    if (response.status === 200){
+                        data = response.data
+                    }
+                    else{
+                        message.warning('请求错误,请稍后再试', 2)
+                    }
+                }).then(()=>{
+                    data.map((item,index)=>{
+                        _this.pic_url.push(item.url)
+                        _this.title.push(item.name)
+                        _this.id.push(item.id)
+                        _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
+                        _this.content.push(item.information)
+                    })
+                }).then(()=>{
+                    this.setState({
+                        length:data.length,
+                        data: Array.from({ length: data.length }).map((_, i) => ({
+                            href: _this.href[i],
+                            title: _this.title[i],
+                            pic:_this.pic_url[i],
+                            description:_this.description[i],
+                            content:_this.content[i], 
+                          })),
+                    })
+                }).then(()=>{
+                    axios.get('http://192.168.43.40:8080/hot10')
+                    .then(function (response){
+                        if(response.status===200)
+                         hot10 = response.data
+                        else
+                        message.error('hot10获取失败')
+                    })
+                .then(()=>{
+                    console.log(99999999)
+                    console.log(hot10)
+                    this.setState({
+                        option:{
+                            backgroundColor: "#fff",
+                            tooltip: {
+                              pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>"
+                            },
+                            series: [
+                              {
+                                shape: 'circle',
+                                type: "wordCloud",
+                                gridSize: 1,
+                                // Text size range which the value in data will be mapped to.
+                                // Default to have minimum 12px and maximum 60px size.
+                                sizeRange: [12, 60],
+                                // Text rotation range and step in degree. Text will be rotated randomly in range [-90,90] by rotationStep 45
+                                rotationRange: [-45, 0, 45, 90],
+                                // 呈现形状图片， 可选
+                                drawOutOfBound: false,
+                                layoutAnimation: true,
+                                textStyle: {
+                                  fontFamily: 'sans-serif',
+                                  fontWeight: 'bold',
+                                  // Color can be a callback function or a color string
+                                  color: function () {
+                                      // Random color
+                                      return 'rgb(' + [
+                                          Math.round(Math.random() * 160),
+                                          Math.round(Math.random() * 160),
+                                          Math.round(Math.random() * 160)
+                                      ].join(',') + ')';
+                                  }
+                                      },
+                                      emphasis: {
+                                          focus: 'self',
+                                          textStyle: {
+                                              textShadowBlur: 10,
+                                              textShadowColor: '#333'
+                                          }
+                                      },
+                                left: "center",
+                                top: "center",
+                                right: null,
+                                bottom: null,
+                                data: hot10,
+                              }
+                            ]
+                          }
+                    })
+                })
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
    
     
         
@@ -218,170 +371,11 @@ class Searchlist extends React.Component{
             id : e.target.id,
           }})
       }
-      wordOption = () => {
+      
+
     
-        let maskImage = new Image();
-        // 此为词云图呈现形状的图片base64码，可选，可以自定义图片
        
-        let wordData=this.state.hot10;
-        // let wordData = [
-        //   {
-        
-        //     name: "博美犬",
-        //     value: 249106
-        //   },
-        //   {
-        
-        //     name: "美国恶霸犬",
-        //     value: 183761
-        //   },
-        //   {
-        
-        //     name: "卷毛比熊犬",
-        //     value: 153077
-        //   },
-        //   {
-        
-        //     name: "法国斗牛犬",
-        //     value: 108815
-        //   },
-        //   {
-        
-        //     name: "茶杯犬",
-        //     value: 79855
-        //   },
-        //   {
-        
-        //     name: "中华田园犬",
-        //     value: 68458
-        //   },
-        //   {
-        
-        //     name: "银狐犬",
-        //     value: 57503
-        //   },
-        //   {
-        
-        //     name: "澳大利亚梗",
-        //     value: 57369
-        //   },
-        //   {
-        
-        //     name: "圣伯纳犬",
-        //     value: 53541
-        //   },
-        //   {
-        
-        //     name: "哈士奇",
-        //     value: 51079
-        //   },
-        //   {
-        
-        //     name: "苏格兰折耳猫",
-        //     value: 109503
-        //   },
-        //   {
-        
-        //     name: "褴褛猫",
-        //     value: 98844
-        //   },
-        //   {
-        
-        //     name: "英国短毛猫",
-        //     value: 98033
-        //   },
-        //   {
-        
-        //     name: "茶杯猫",
-        //     value: 78219
-        //   },
-        //   {
-        
-        //     name: "中国狸花猫",
-        //     value: 73400
-        //   },
-        //   {
-        
-        //     name: "布偶猫",
-        //     value: 62277
-        //   },
-        //   {
-        
-        //     name: "波斯猫",
-        //     value: 52102
-        //   },
-        //   {
-        
-        //     name: "山东狮子猫",
-        //     value: 51646
-        //   },
-        //   {
-        
-        //     name: "沙特尔猫",
-        //     value: 40307
-        //   },
-        //   {
-        
-        //     name: "异国短毛猫",
-        //     value: 40233
-        //   }
-        // ];
     
-        let option = {
-        
-          backgroundColor: "#fff",
-          tooltip: {
-            pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>"
-          },
-          series: [
-            {
-             
-              shape: 'circle',
-            
-              type: "wordCloud",
-              gridSize: 1,
-              // Text size range which the value in data will be mapped to.
-              // Default to have minimum 12px and maximum 60px size.
-              sizeRange: [12, 60],
-              // Text rotation range and step in degree. Text will be rotated randomly in range [-90,90] by rotationStep 45
-              rotationRange: [-45, 0, 45, 90],
-              // 呈现形状图片， 可选
-              drawOutOfBound: false,
-              layoutAnimation: true,
-              textStyle: {
-                fontFamily: 'sans-serif',
-                fontWeight: 'bold',
-                // Color can be a callback function or a color string
-                color: function () {
-                    // Random color
-                    return 'rgb(' + [
-                        Math.round(Math.random() * 160),
-                        Math.round(Math.random() * 160),
-                        Math.round(Math.random() * 160)
-                    ].join(',') + ')';
-                }
-                    },
-                    emphasis: {
-                        focus: 'self',
-                        textStyle: {
-                            textShadowBlur: 10,
-                            textShadowColor: '#333'
-                        }
-                    },
-              // Folllowing left/top/width/height/right/bottom are used for positioning the word cloud
-              // Default to be put in the center and has 75% x 80% size.
-              left: "center",
-              top: "center",
-              right: null,
-              bottom: null,
-            //   width: "70%",
-            //   height: "80%",
-              data: wordData
-            }
-          ]
-        };
-        return option;
-      };
 
     render(){
         return(
@@ -462,8 +456,7 @@ class Searchlist extends React.Component{
                             热搜云词图
                         </div>
                         <br/>  
-                        <ReactEcharts option={
-                        this.wordOption()}
+                        <ReactEcharts option={this.state.option}
                                 theme="ThemeStyle"
                                 />
                     
