@@ -174,7 +174,7 @@ componentWillMount () {
             </Col>
         </Row>
         <DetailList details={this.state.detailForList}/>
-        <QAlist QAitems={this.state.QAitems} petId={this.state.petId}/>
+        <QAlist QAitems={this.state.QAitems} petID={this.state.petID}/>
 
 
 
