@@ -10,17 +10,14 @@ ToDoList:
 class DetailTable extends Component{
     constructor(props) {
         super(props);
-        console.log("DetailTable组件内部测试:")
-        console.log(props)
         this.state = {
-            details:props.details
+            // details:props.details
         }
     }
-    
+
     render(){
-        console.log(this.state.details)
         const detailElements = []
-        for (let detail of this.state.details) {
+        for (let detail of this.props.details) {
             detailElements.push(
                 <Descriptions.Item label={detail.key}>
                     {detail.value}
