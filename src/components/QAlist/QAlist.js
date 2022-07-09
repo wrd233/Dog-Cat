@@ -1,5 +1,6 @@
 import React,{Component } from 'react';
 import { Avatar, List, Drawer, Descriptions,Skeleton,Space, Card,Modal, Button, Form,Input} from 'antd';
+import Answers from "./Answers"
 import axios from "axios";
 
 /*
@@ -18,18 +19,20 @@ class QAlist extends Component{
             // isModalVisible:false,
             visible:false,
             answersToShow:[],            // 选中的待展示的一个问题的多条评论
+            questionToShow:-1,
             isModal:false,
             isLoading:false,
         }
     }
-    componentWillMount () {
+    // [ToDo]:在渲染这个之前得到QA
+    componentDidMount () {
         // [ToDo]：从后端获得当前petID对应的QAlist并将其赋值到这个状态中
-        // axios({
-        // method:'get',
-        // url:'http://192.168.43.40:8080/showpage?id='+this.state.petID, 
-        // }).then(function(response){
-        //     console.log(response)
-        // })
+        axios({
+        method:'get',
+        url:'http://192.168.43.40:8080/showQuestion?id='+this.state.petID, 
+        }).then(function(response){
+            console.log(response)
+        })
     }
 
     showModal = () => {
@@ -44,24 +47,31 @@ class QAlist extends Component{
         });
     };
 
-    onFinish = (values) => {
+    onFinish = async(values) => {
         this.setState({
             isLoading:true
         });
+
+        await axios({
+            method:'get',
+            url:'http://192.168.43.40:8080/Question_submit?id='+this.state.petID+'&title='+values.title+'&content='+values.content, 
+            }).then(function(response){
+                console.log(response)
+            })
+
         // [ToDo] 完成表单的提交和QAlist的刷新
-        setTimeout(() => {
-            this.setState({
-                isModal:false,
-                isLoading:false
-            });
-        }, 3000);
+        this.setState({
+            isModal:false,
+            isLoading:false
+        });
+        console.log("上传成功")
         console.log(values);
       };
 
-    checkAnswer = (e,answers) => {
+    checkAnswer = (e,ID) => {
         this.setState({
             visible:true,
-            answersToShow:answers
+            questionToShow:ID,
         });
     };
 
@@ -100,7 +110,7 @@ class QAlist extends Component{
                     <List.Item.Meta
                     avatar={<Avatar src={item.avatar} />}
                     title={
-                        <a onClick={(e) => { this.checkAnswer(e,item.answers); } }>
+                        <a onClick={(e) => { this.checkAnswer(e,item.questionID); } }>
                             {item.title}
                         </a>}
                     description={item.description}

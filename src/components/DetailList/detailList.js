@@ -12,7 +12,6 @@ class DetailList extends Component{
             details:props.details   // 存储待渲染信息的列表
         }
     }
-
     render(){
         // 列表渲染
         const detailElements = []
@@ -20,12 +19,16 @@ class DetailList extends Component{
         for (let detail of this.state.details) {
             detailElements.push(
                 <Panel header={detail.header} key={i} className="site-collapse-custom-panel">
-                    <p>{detail.context}</p>
+                    {/* <p>{detail.context}</p> */}
+                    <div style={{display: 'inline-block'}}
+                    dangerouslySetInnerHTML=
+                        {{__html: detail.context}}
+                    ></div>
                 </Panel>
             )
             i = i+1;
         }
-
+        
         return(
             <Collapse
                 bordered={false}

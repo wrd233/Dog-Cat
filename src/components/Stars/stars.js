@@ -13,7 +13,6 @@ class Stars extends Component{
             starList:props.starList
         }
     }
-
     render(){
         const starElements = []
         for (let elmt of this.state.starList) {

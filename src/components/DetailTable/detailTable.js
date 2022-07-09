@@ -10,12 +10,15 @@ ToDoList:
 class DetailTable extends Component{
     constructor(props) {
         super(props);
+        console.log("DetailTable组件内部测试:")
+        console.log(props)
         this.state = {
             details:props.details
         }
     }
-
+    
     render(){
+        console.log(this.state.details)
         const detailElements = []
         for (let detail of this.state.details) {
             detailElements.push(
@@ -30,7 +33,7 @@ class DetailTable extends Component{
             </Descriptions>
         );
     }
-};
-    
+}; 
+
 //输出组件
 export default DetailTable;
