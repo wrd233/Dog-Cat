@@ -24,8 +24,8 @@ const QAitems = [
         avatar: 'https://joeschmoe.io/api/v1/random',
         content:'请问狗肉真的有这么香吗？另外耶稣跳墙的时候是先迈右脚还是先迈左脚？耶稣能不能创造一个他跳不过的墙？',
         answers:[
-            {content:'我不知道'},
-            {content:'我也不知道'},
+            {content:'众所周知，7，8岁的狗狗就已经步入老年，那么这个年龄段的狗狗应该如何训练才能让他保持健康已经成了很多人的烦恼，毕竟这时候的博美已经把医生都共享给了人类，我们对博美也有了一定的感情我们当然不希望博美和我们说88。因此我们每天要给博美进行适当的运动， 让博美的状态保持最佳，小编的建议是，可以带狗狗去跑跑操场，这样我们不仅可以对博美进行锻炼，同时我们的身体素质也会得到很大程度的训练。正常一开始可以跑个一两圈，后面可以慢慢增加路程，慢慢的狗狗的核心就提升了上来，我们也和狗狗一样。跑步之后可以和狗狗散散步，有空也可以带博美爬爬山，让博美更贴近大自然。'},
+            {content:'相信大家听完小编对8岁博美饲养训练的教学之后一定对如何对博美进行训练有了更好的理解吧！那大家快去带上自己的博美出去跑跑步吧！给他一个更好的身体！'},
         ]
     },
     {
@@ -34,8 +34,8 @@ const QAitems = [
         avatar: 'https://joeschmoe.io/api/v1/random',
         content:'请问狗肉真的有这么香吗？另外耶稣跳墙的时候是先迈右脚还是先迈左脚？耶稣能不能创造一个他跳不过的墙？',
         answers:[
-            {content:'我不知道'},
-            {content:'我也不知道'},
+            {content:'是必须要接种疫苗，因为接种疫苗不光可以保障狗狗身体的健康，增强狗狗自身的免疫力，同时也可以避免狗狗把一些疾病传染给人类，所以接种疫苗对人和狗狗都有好处。但并不是每次接受疫苗都会成功的，有时狗狗接种了疫苗但还是得了传染病，这就是接种疫苗失败。揭晓狗狗注射疫苗失败的原因,主人莫慌!下面就一起来看看吧。'},
+            {content:'当狗狗注射完疫苗之后，抗原进入机体也会产生不同水平的免疫反应，但这都是需要有一定的营养物质来做铺垫的，因此如果狗狗体内营养物质缺乏或者不足，特别是维生素A，D，B，E和多种微量元素及全价蛋白缺乏的时候，你e抗体就没有办法迅速生成该有的数量，从而导致免疫反应停滞或者免疫应答能力下降，这么一来就出会直接导致免疫失败。'},
         ]
     }
 ]
@@ -72,6 +72,7 @@ const detailForList = [
 class Showpage extends react.Component{
   state = {
     // petId:this.props.location.state.id,
+    petID:330,
     QAitems:[],
     starList:[],
     detailForTable:[],
@@ -173,7 +174,7 @@ componentWillMount () {
             </Col>
         </Row>
         <DetailList details={this.state.detailForList}/>
-        <QAlist QAitems={this.state.QAitems}/>
+        <QAlist QAitems={this.state.QAitems} petId={this.state.petId}/>
 
 
 

@@ -1,6 +1,6 @@
 import React,{Component, Modal } from 'react';
-import { Avatar, List, Drawer, Descriptions,Skeleton,Space } from 'antd';
-
+import { Avatar, List, Drawer, Descriptions,Skeleton,Space, Card  } from 'antd';
+import axios from "axios";
 
 /*
 ToDoList:
@@ -10,11 +10,21 @@ class QAlist extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            QAitems:props.QAitems,
+            QAitems:props.QAitems,      // 所有的QA项目
+            petID:props.petID,
             // isModalVisible:false,
             visible:false,
-            answersToShow:[]
+            answersToShow:[]            // 选中的待展示的一个问题的多条评论
         }
+    }
+    componentWillMount () {
+        // [ToDo]：从后端获得当前petID对应的QAlist并将其赋值到这个状态中
+        // axios({
+        // method:'get',
+        // url:'http://192.168.43.40:8080/showpage?id='+this.state.petId, 
+        // }).then(function(response){
+        //     console.log(response)
+        // })
     }
 
     checkAnswer = (e,answers) => {
@@ -22,7 +32,7 @@ class QAlist extends Component{
             visible:true,
             answersToShow:answers
         });
-        console.log(this.state.answersToShow)
+        // console.log(this.state.answersToShow)
     };
 
     onClose = ()=>{
@@ -41,17 +51,18 @@ class QAlist extends Component{
             )
         }
 
-        var answerElements = []
-        for(let ans of this.state.answersToShow){
-            answerElements.push(
-                <div>
-                    {ans.content}
-                </div>
-            )
-        }
+        // var answerElements = []
+        // for(let ans of this.state.answersToShow){
+        //     answerElements.push(
+        //         <div>
+        //             {ans.content}
+        //         </div>
+        //     )
+        // }
         
         return(
             <>
+            
             <List
                 itemLayout="vertical"
                 size="large"
@@ -79,7 +90,7 @@ class QAlist extends Component{
                     dataSource={this.state.answersToShow}
                     renderItem={item => (
                     <List.Item>
-                        <Skeleton avatar title={false} loading={item.loading} active>
+                        {/* <Skeleton avatar title={false} loading={item.loading} active>
                         <List.Item.Meta
                             // avatar={<Avatar src={item.picture.large} />}
                             title="用户名"
@@ -89,7 +100,13 @@ class QAlist extends Component{
                                 {item.content}
                             </Space>
                         {item.content}
-                        </Skeleton>
+                        </Skeleton> */}
+                        <Card   
+                            title="匿名用户"
+                            hoverable={true}
+                            >
+                            {item.content}
+                        </Card>
                     </List.Item>
                     )}
                     />
