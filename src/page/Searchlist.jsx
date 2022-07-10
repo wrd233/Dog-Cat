@@ -110,7 +110,8 @@ class Searchlist extends React.Component{
                     pic:this.pic_url[i],
                     description:this.description[i],
                     content:this.content[i], 
-                    url:this.url[i]
+                    url:this.url[i],
+                    id:this.id[i],
                   })),
                     option:{
                         backgroundColor: "#fff",
