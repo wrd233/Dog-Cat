@@ -23,6 +23,11 @@ class Searchlist extends React.Component{
   plainOptions = ['狗狗', '猫猫'];
   plainOptions1 = ['小型', '中型','大型'];
     state={
+        zhonglei:['狗狗'],
+        zuida:100000,
+        zuixiao:0,
+        tixing:['小型'],
+        guojia:'中国',
         id:0,
         length:0,
         drawer_visible:false,
@@ -738,11 +743,13 @@ class Searchlist extends React.Component{
       }
       adsearch=(e)=>{
         this.setState({
+            zhonglei:['狗狗'],
+            tixing:['小型'],
             pet_species:1,
             pet_size:4,
-            min_price:0,
-            max_price:100000,
-            country:'中国',
+            min_price:this.state.zuixiao,
+            max_price:this.state.zuida,
+            country:this.state.guojia,
           drawer_visible:true
         })
       }
@@ -753,6 +760,9 @@ class Searchlist extends React.Component{
       }
       changespecies=(checkedValues) => {
         console.log('checked = ', checkedValues);
+        this.setState({
+            zhonglei:checkedValues
+        })
         if(checkedValues.includes('猫猫')&&checkedValues.includes('狗狗'))
           this.setState({
             pet_species:2
@@ -772,6 +782,9 @@ class Searchlist extends React.Component{
       };
       changesize=(checkedValues) => {
         console.log('checked = ', checkedValues);
+        this.setState({
+            tixing:checkedValues
+        })
         if(checkedValues.includes('小型')&&checkedValues.includes('中型')&&checkedValues.includes('大型'))
           this.setState({
             pet_size:7
@@ -809,19 +822,23 @@ class Searchlist extends React.Component{
       minichange=(e)=>{
         console.log(e.target.value)
         this.setState({
-          min_price:e.target.value
+          min_price:e.target.value,
+          zuixiao:e.target.value,
+          
         })
       }
       maxchange=(e)=>{
         console.log(e.target.value)
         this.setState({
-          max_price:e.target.value
+          max_price:e.target.value,
+          zuida:e.target.value
         })
       }
       changecountry=(e)=>{
         console.log(e.target.value)
         this.setState({
-          country:e.target.value
+          country:e.target.value,
+          guojia:e.target.value
         })
       }
       todetail=(e,id)=>{
@@ -956,7 +973,7 @@ class Searchlist extends React.Component{
                 >
                     <div >
                     <span>宠物类别 : </span>&nbsp;&nbsp;&nbsp;
-          <Checkbox.Group options={this.plainOptions} defaultValue={['狗狗']}  
+          <Checkbox.Group options={this.plainOptions} value={this.state.zhonglei}
           onChange={this.changespecies} />
           
                     </div>
@@ -1013,7 +1030,7 @@ class Searchlist extends React.Component{
                     <div >
                     <br/>
                     <span>宠物体型 : </span>&nbsp;&nbsp;&nbsp;
-          <Checkbox.Group options={this.plainOptions1} defaultValue={['小型']} onChange={this.changesize} />
+          <Checkbox.Group options={this.plainOptions1} defaultValue={['小型']} onChange={this.changesize} value={this.state.tixing}/>
                     </div>
                     <div>
                     <br/> <br/> <br/> 
