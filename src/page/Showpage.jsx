@@ -94,8 +94,8 @@ class Showpage extends react.Component{
       }
 
 async componentDidMount () {
-    console.log("当前页面pet的ID为:"+this.state.petID)
-    console.log("当前页面pet的ID为:"+this.props.location.state.id)
+    // console.log("当前页面pet的ID为:"+this.state.petID)
+    // console.log("当前页面pet的ID为:"+this.props.location.state.id)
     var res;
     await axios({
         method:'get',
@@ -103,6 +103,12 @@ async componentDidMount () {
     }).then(function(response){
         console.log(response)
         res = response
+        this.setState({
+            QAitems:[],
+            starList:[],
+            detailForTable:[],
+            detailForList:[],
+        })
         /*--------- 组装starList ---------*/
         starList.push({key:"粘 人 程 度",value:response.data.clingyLevel})
         starList.push({key:"喜 叫 程 度",value:response.data.noisyLevel})
