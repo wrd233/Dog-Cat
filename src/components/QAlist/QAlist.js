@@ -149,7 +149,7 @@ class QAlist extends Component{
                     key={item.title}
                 >
                     <List.Item.Meta
-                    avatar={<Avatar src={item.avatar} />}
+                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
                     title={
                         <a onClick={(e) => { this.checkAnswer(e,item.id,item.title,item.content); } }>
                             {item.title}

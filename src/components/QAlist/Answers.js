@@ -93,6 +93,12 @@ class Answers extends Component{
       };
 
     render(){
+        if(this.state.QuestionID != this.props.QuestionID){
+            this.setState({
+                QuestionID:this.props.QuestionID
+            })
+            this.renew()
+        }
         return(
             <>
             <div className='question'>

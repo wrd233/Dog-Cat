@@ -79,8 +79,8 @@ var detailForList = []
 
 class Showpage extends react.Component{
     state = {
-        petID:this.props.location.state.id,
-        // petID:350,
+        // petID:this.props.location.state.id,
+        petID:350,
         QAitems:[],
         starList:[],
         detailForTable:[],
