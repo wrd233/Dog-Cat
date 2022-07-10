@@ -10,16 +10,15 @@ class Stars extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            starList:props.starList
+            // starList:props.starList
         }
     }
-
     render(){
         const starElements = []
-        for (let elmt of this.state.starList) {
+        for (let elmt of this.props.starList) {
             starElements.push(
-                <Descriptions.Item label={elmt.key}>
-                    <Rate allowHalf defaultValue={elmt.value}/>
+                <Descriptions.Item label={elmt.key} labelStyle={{color:"dimgray"}}>
+                    <Rate disabled allowHalf defaultValue={elmt.value}/>
                 </Descriptions.Item>
             )
         }
