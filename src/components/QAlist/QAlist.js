@@ -19,6 +19,8 @@ class QAlist extends Component{
             // isModalVisible:false,
             visible:false,
             answersToShow:[],            // 选中的待展示的一个问题的多条评论
+            answerToShowTitle:"",
+            answerToShowContent:"",
             questionToShow:-1,
             isModal:false,
             isLoading:false,
@@ -103,12 +105,14 @@ class QAlist extends Component{
         this.renew()
       };
 
-    checkAnswer = (e,ID) => {
+    checkAnswer = (e,ID,title,content) => {
         console.log("ID:")
         console.log(ID)
         this.setState({
             visible:true,
             questionToShow:ID,
+            answerToShowTitle:title,
+            answerToShowContent:content
         });
     };
 
@@ -147,7 +151,7 @@ class QAlist extends Component{
                     <List.Item.Meta
                     avatar={<Avatar src={item.avatar} />}
                     title={
-                        <a onClick={(e) => { this.checkAnswer(e,item.id); } }>
+                        <a onClick={(e) => { this.checkAnswer(e,item.id,item.title,item.content); } }>
                             {item.title}
                         </a>}
                     description={item.description}
@@ -157,22 +161,7 @@ class QAlist extends Component{
                 )}
             />
             <Drawer title="问答详情" placement="bottom" onClose={this.onClose} visible={this.state.visible}>
-                {/* {answerElements} */}
-                {/* <List
-                    itemLayout="horizontal"
-                    dataSource={this.state.answersToShow}
-                    renderItem={item => (
-                    <List.Item>
-                        <Card   
-                            title="匿名用户"
-                            hoverable={true}
-                            >
-                            {item.content}
-                        </Card>
-                    </List.Item>
-                    )}
-                    /> */}
-                    <Answers QuestionID={this.state.questionToShow}/>
+                    <Answers QuestionID={this.state.questionToShow} title={this.state.title} content={this.state.content}/>
             </Drawer>
 
             <Modal

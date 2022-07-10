@@ -7,6 +7,8 @@ class Answers extends Component{
         super(props);
         this.state = {
             QuestionID:props.QuestionID,
+            // title:props.title,
+            // content:props,content,
             answers:[],
             isModal:false,
             isLoading:false,
@@ -103,8 +105,12 @@ class Answers extends Component{
                 type="primary"
                 onClick={this.showModal}
             >
-                我要提问
+                我要回答
             </Button>
+            <div className='question'>
+                <p>{this.state.title}</p>
+                <p>{this.state.content}</p>
+            </div>
             <List
                 itemLayout="horizontal"
                 dataSource={this.state.answers}

@@ -79,8 +79,8 @@ const detailForList = []
 
 class Showpage extends react.Component{
     state = {
-        // petId:this.props.location.state.id,
-        petID:350,
+        petID:this.props.location.state.id,
+        // petID:350,
         QAitems:[],
         starList:[],
         detailForTable:[],
@@ -95,6 +95,7 @@ class Showpage extends react.Component{
 
 async componentDidMount () {
     console.log("当前页面pet的ID为:"+this.state.petID)
+    console.log("当前页面pet的ID为:"+this.props.location.state.id)
     var res;
     await axios({
         method:'get',

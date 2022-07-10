@@ -209,6 +209,7 @@ class Searchlist extends React.Component{
                             pic:this.pic_url[i],
                             description:this.description[i],
                             content:this.content[i], 
+                            id:this.id[i]
                           })),
                     })
                 }).then(()=>{
@@ -315,6 +316,7 @@ class Searchlist extends React.Component{
                             description:_this.description[i],
                             content:_this.content[i], 
                             url:_this.url[i],
+                            id:_this.id[i]
                           })),
                     })
                 }).then(()=>{
@@ -358,7 +360,8 @@ class Searchlist extends React.Component{
                                     pic:_this.pic_url[i],
                                     description:_this.description[i],
                                     content:_this.content[i], 
-                                    url:_this.url[i]
+                                    url:_this.url[i],
+                                    id:_this.id[i]
                                   })),
                             })
                         })
@@ -485,6 +488,7 @@ class Searchlist extends React.Component{
                             description:_this.description[i],
                             content:_this.content[i], 
                             url:_this.url[i],
+                            id:_this.id[i]
                           })),
                     })
                 }).then(()=>{
@@ -528,7 +532,8 @@ class Searchlist extends React.Component{
                                     pic:_this.pic_url[i],
                                     description:_this.description[i],
                                     content:_this.content[i], 
-                                    url:_this.url[i]
+                                    url:_this.url[i],
+                                    id:_this.id[i]
                                   })),
                             })
                         })
@@ -657,6 +662,7 @@ class Searchlist extends React.Component{
                                 pic:this.pic_url[i],
                                 description:this.description[i],
                                 content:this.content[i], 
+                                id:_this.id[i]
                               })),
                         })
                     }).then(()=>{
@@ -816,8 +822,10 @@ class Searchlist extends React.Component{
           country:e.target.value
         })
       }
-      todetail=(e)=>{
+      todetail=(e,id)=>{
           console.log(e.target.name)
+          console.log(this.state.data)
+          console.log(id)
           if(e.target.name!=="")
           window.location.href=e.target.name
           else{
@@ -901,7 +909,8 @@ class Searchlist extends React.Component{
                     >
                         <List.Item.Meta
                         
-                        title={<a name={item.url} onClick={this.todetail} id={item.id}>{item.title}</a>}
+                        title={<a 
+                            name={item.url} onClick={(e) => {this.todetail(e,item.id)}} id={item.id}>{item.title}</a>}
                         description={item.description}
                         />
                         {item.content}
