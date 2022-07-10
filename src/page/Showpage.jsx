@@ -68,19 +68,19 @@ const { Header, Content, Footer } = Layout;
 //   {header:'生活习性', context:'无论是长毛还是短毛，折耳猫的被毛都是非常厚的，所以最好每天都替它们梳理，这样可以保持被毛亮丽并且去除死毛。'},
 // ]
 
-const QAitems = []
+var QAitems = []
     
-const starList = []
+var starList = []
 
-const detailForTable = []
+var detailForTable = []
 
-const detailForList = []
+var detailForList = []
 
 
 class Showpage extends react.Component{
     state = {
-        petID:this.props.location.state.id,
-        // petID:350,
+        // petID:this.props.location.state.id,
+        petID:350,
         QAitems:[],
         starList:[],
         detailForTable:[],
@@ -104,11 +104,8 @@ async componentDidMount () {
         console.log(response)
         res = response
         QAitems = []
-    
         starList = []
-        
         detailForTable = []
-        
         detailForList = []
         /*--------- 组装starList ---------*/
         starList.push({key:"粘 人 程 度",value:response.data.clingyLevel})
