@@ -14,6 +14,7 @@ import dog from '../image/dog.jpeg'
 import axios from "axios";
 import { useState } from 'react';
 import { Collapse } from 'antd';
+import cookie from 'react-cookies';
 
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
 const { Panel } = Collapse;
@@ -119,7 +120,19 @@ class Homepage extends react.Component{
   handlsubmit = (e) => {
     var string = e.target.value;
     console.log(string);
-    
+    let k=[]
+    localStorage.setItem("pic_url",JSON.stringify(k));
+    localStorage.setItem("title",JSON.stringify(k));
+    localStorage.setItem("id",JSON.stringify(k));
+    localStorage.setItem("description",JSON.stringify(k));
+    localStorage.setItem("content",JSON.stringify(k));
+    localStorage.setItem("url",JSON.stringify(k));
+    // cookie.save('pic_url',k,{ path: '/' })
+    // cookie.save('title',k,{ path: '/' })
+    // cookie.save('id',k,{ path: '/' })
+    // cookie.save('description',k,{ path: '/' })
+    // cookie.save('content',k,{ path: '/' })
+    // cookie.save('url',k,{ path: '/' })
 	  this.props.history.push({ pathname : '/searchlist' , state : { 
       input : string ,
     }})
@@ -128,8 +141,15 @@ class Homepage extends react.Component{
     this.setState({
       input:''
     })
+    let k=[]
+    localStorage.setItem("pic_url",JSON.stringify(k));
+    localStorage.setItem("title",JSON.stringify(k));
+    localStorage.setItem("id",JSON.stringify(k));
+    localStorage.setItem("description",JSON.stringify(k));
+    localStorage.setItem("content",JSON.stringify(k));
+    localStorage.setItem("url",JSON.stringify(k));
     this.props.history.push({ pathname : '/searchlist' , state : { 
-      pet_size :  this.state.pet_size,
+      pet_size : this.state.pet_size,
       pet_species:this.state.pet_species,
       min_price:this.state.min_price,
       max_price:this.state.max_price,
@@ -219,7 +239,12 @@ class Homepage extends react.Component{
       country:e.target.value
     })
   }
- 
+  todetail=(e)=>{
+    console.log(e.target.id)
+    this.props.history.push({ pathname : '/showpage' , state : { 
+      id : e.target.id,
+    }})
+}
   
   render(){
     return(
@@ -342,7 +367,7 @@ class Homepage extends react.Component{
                   if(index<3){
                   return <Panel showArrow={false} header={
                     <span>
-                      <img src={this.rank[index]} className="rank1"></img>
+                      <img src={this.rank[index]} className="rank1" ></img>
                       &nbsp; &nbsp;
                       {item.name}
                     </span>} 
@@ -350,7 +375,7 @@ class Homepage extends react.Component{
                       <div >
                         <Row>
                           <Col span={6}>
-                          <img src={item.url} className="p"/>
+                          <img src={item.url} className="p" onClick={this.todetail} id={item.id}/>
                           </Col>
                           <Col span={18} >
                             <div className="font1">别名:{item.nickname}</div>
@@ -374,7 +399,7 @@ class Homepage extends react.Component{
                   if(index>2){
                   return <Panel showArrow={false} header={
                     <span>
-                      <img src={this.rank[index-3]} className="rank1"></img>
+                      <img src={this.rank[index-3]} className="rank1" ></img>
                       &nbsp; &nbsp;
                       {item.name}
                     </span>} 
@@ -382,7 +407,7 @@ class Homepage extends react.Component{
                       <div >
                         <Row>
                           <Col span={6}>
-                          <img src={item.url} className="p"/>
+                          <img src={item.url} className="p" onClick={this.todetail} id={item.id}/>
                           </Col>
                           <Col span={18} >
                             <div className="font1">别名:{item.nickname}</div>

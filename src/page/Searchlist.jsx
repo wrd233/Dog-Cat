@@ -1,6 +1,6 @@
 import React from 'react';
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import { Avatar, List, Space,Input,Row,Col,Radio,Drawer,Button,message} from 'antd';
+import { Avatar, List, Space,Input,Row,Col,Radio,Drawer,Button,message,Checkbox} from 'antd';
 import {InfoCircleTwoTone} from '@ant-design/icons'
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
@@ -10,6 +10,7 @@ import '../css/Homepage.css'
 import dog from '../image/dog.jpeg'
 import Logo from '../image/logo2.jpeg'
 import axios from 'axios';
+import cookie from 'react-cookies';
 class Searchlist extends React.Component{
     pic_url=[]
     title=[]
@@ -17,25 +18,29 @@ class Searchlist extends React.Component{
     content=[]
     href=[]
     id=[]
+    url=[]
+
+  plainOptions = ['狗狗', '猫猫'];
+  plainOptions1 = ['小型', '中型','大型'];
     state={
-        hot10:[],
         id:0,
         length:0,
         drawer_visible:false,
-        pictures:[],
         pet_species:this.props.location.state.pet_species,
         pet_size:this.props.location.state.pet_size,
         min_price:this.props.location.state.min_price,
         max_price:this.props.location.state.max_price,
         country:this.props.location.state.country,
         input:this.props.location.state.input,
-        data: Array.from({ length: 3 }).map((_, i) => ({
+        data: 
+        Array.from({ length: 3 }).map((_, i) => ({
             href: this.href[i],
             title: this.title[i],
             pic:this.pic_url[i],
             description:this.description[i],
             content:this.content[i], 
-            id:this.id[i]
+            id:this.id[i],
+            url:this.url[i]
           })),
          option:{
             backgroundColor: "#fff",
@@ -87,35 +92,81 @@ class Searchlist extends React.Component{
           
     }
       componentWillMount () {
-        // this.pic_url=['http://img.ixiupet.com/uploads/150309/2-15030920514b57.jpg','http://img.ixiupet.com/uploads/allimg/150617/3-15061G055460-L.jpg',
-        // 'http://img.ixiupet.com/uploads/150410/2-150410144413b3.jpg']
-        // this.title=['苏格兰折耳猫','美国恶霸犬','法国斗牛犬']
-        // this.description=['美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型',
-        // '美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型',
-        // '美国恶霸犬,别名:美国恶霸犬,分布区域:世界各地,原产地:美国,体型:小型、中型、大型'
-        // ]
-        // this.content=['苏格兰折耳猫的耳朵竟是整齐地扣在头上，于是很自然地人们在头脑中把它们划到了精灵族的一边，猫猫中的折耳精灵族非它莫属。',
-        // '美国恶霸这个犬种创立于90年代中期，以培育成家庭伴侣犬为最终目的。',
-        // '法国斗牛犬(FRENCH BULLDOG)是一种活泼、聪明、肌肉发达的狗，骨骼沉重，被毛平滑、结构紧凑，体型中等或较小。']
-        // this.href=['https://www.ixiupet.com/mmpz/199/','https://www.ixiupet.com/ggpz/3106/','https://www.ixiupet.com/ggpz/892/']
-        // this.id=[244,125,256]
-        // this.setState({
-          
-        //     data: Array.from({ length: 3 }).map((_, i) => ({
-        //         href: this.href[i],
-        //         title: this.title[i],
-        //         pic:this.pic_url[i],
-        //         description:this.description[i],
-        //         content:this.content[i], 
-        //         id:this.id[i]
-        //       })),
-        // })
-        
-        
-  
+        this.pic_url=JSON.parse(localStorage.getItem("pic_url"));
+        this.title=JSON.parse(localStorage.getItem("title"));
+        this.id=JSON.parse(localStorage.getItem("id"));
+        this.description=JSON.parse(localStorage.getItem("description"));
+        this.url=JSON.parse(localStorage.getItem("url"));
+        this.content=JSON.parse(localStorage.getItem("content"));
+        let hot =JSON.parse(localStorage.getItem("hot10"));
+        console.log(this.pic_url.length)
+        if(this.pic_url.length!==0){
+            console.log('已经从cookie读入数据了,不用再请求')
+            this.setState({
+                length:this.pic_url.length,
+                data: Array.from({ length: this.pic_url.length }).map((_, i) => ({
+                    href: this.href[i],
+                    title: this.title[i],
+                    pic:this.pic_url[i],
+                    description:this.description[i],
+                    content:this.content[i], 
+                    url:this.url[i]
+                  })),
+                    option:{
+                        backgroundColor: "#fff",
+                        tooltip: {
+                          pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>"
+                        },
+                        series: [
+                          {
+                            shape: 'circle',
+                            type: "wordCloud",
+                            gridSize: 1,
+                            // Text size range which the value in data will be mapped to.
+                            // Default to have minimum 12px and maximum 60px size.
+                            sizeRange: [12, 60],
+                            // Text rotation range and step in degree. Text will be rotated randomly in range [-90,90] by rotationStep 45
+                            rotationRange: [-45, 0, 45, 90],
+                            // 呈现形状图片， 可选
+                            drawOutOfBound: false,
+                            layoutAnimation: true,
+                            textStyle: {
+                              fontFamily: 'sans-serif',
+                              fontWeight: 'bold',
+                              // Color can be a callback function or a color string
+                              color: function () {
+                                  // Random color
+                                  return 'rgb(' + [
+                                      Math.round(Math.random() * 160),
+                                      Math.round(Math.random() * 160),
+                                      Math.round(Math.random() * 160)
+                                  ].join(',') + ')';
+                              }
+                                  },
+                                  emphasis: {
+                                      focus: 'self',
+                                      textStyle: {
+                                          textShadowBlur: 10,
+                                          textShadowColor: '#333'
+                                      }
+                                  },
+                            left: "center",
+                            top: "center",
+                            right: null,
+                            bottom: null,
+                            data: hot,
+                          }
+                        ]
+                      }
+                
+            })
+        }
+        else{
+        console.log(this.state)
         let _this=this
         let data
         let hot10
+        let outdata
         if(this.state.input===undefined){
             axios({
                 method:'post',
@@ -143,6 +194,12 @@ class Searchlist extends React.Component{
                         _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
                         _this.content.push(item.information)
                     })
+                    localStorage.setItem("pic_url",JSON.stringify(this.pic_url));
+                    localStorage.setItem("title",JSON.stringify(this.title));
+                    localStorage.setItem("id",JSON.stringify(this.id));
+                    localStorage.setItem("description",JSON.stringify(this.description));
+                    localStorage.setItem("content",JSON.stringify(this.content));
+                    
                 }).then(()=>{
                     this.setState({
                         length:data.length,
@@ -163,7 +220,8 @@ class Searchlist extends React.Component{
                         message.error('hot10获取失败')
                     })
                 .then(()=>{
-                    console.log(99999999)
+                    localStorage.setItem("hot10",JSON.stringify(hot10));
+                    console.log('hot10')
                     console.log(hot10)
                     this.setState({
                         option:{
@@ -242,8 +300,12 @@ class Searchlist extends React.Component{
                         _this.id.push(item.id)
                         _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
                         _this.content.push(item.information)
+                        _this.url.push("")
                     })
                 }).then(()=>{
+                    console.log('test')
+                    console.log(data)
+                    console.log(this.pic_url)
                     this.setState({
                         length:data.length,
                         data: Array.from({ length: data.length }).map((_, i) => ({
@@ -252,9 +314,56 @@ class Searchlist extends React.Component{
                             pic:_this.pic_url[i],
                             description:_this.description[i],
                             content:_this.content[i], 
+                            url:_this.url[i],
                           })),
                     })
                 }).then(()=>{
+                   
+                    axios({
+                        method:'post',
+                        url:'http://192.168.43.40:8080/outlink',
+                        params:{
+                            input:this.state.input
+                        }
+                    })
+                        .then(function (response) {
+               
+                            if (response.status === 200){
+                                outdata = response.data
+                            }
+                            else{
+                                message.warning('请求错误,请稍后再试', 2)
+                            }
+                        }).then(()=>{
+                            outdata.map((item,index)=>{
+                                _this.pic_url.push(item.picture)
+                                _this.title.push(item.title)
+                                _this.id.push(item.id)
+                                _this.description.push(item.source) 
+                                  _this.content.push(item.content)
+                                _this.url.push(item.url)
+                            })
+                            localStorage.setItem("pic_url",JSON.stringify(this.pic_url));
+                            localStorage.setItem("title",JSON.stringify(this.title));
+                            localStorage.setItem("id",JSON.stringify(this.id));
+                            localStorage.setItem("description",JSON.stringify(this.description));
+                            localStorage.setItem("content",JSON.stringify(this.content));
+                            localStorage.setItem("url",JSON.stringify(this.url));
+                        }).then(()=>{
+                            this.setState({
+                                length:data.length+outdata.length,
+                                data: Array.from({ length: data.length+outdata.length }).map((_, i) => ({
+                                    href: _this.href[i],
+                                    title: _this.title[i],
+                                    pic:_this.pic_url[i],
+                                    description:_this.description[i],
+                                    content:_this.content[i], 
+                                    url:_this.url[i]
+                                  })),
+                            })
+                        })
+                })
+                .then(()=>{
                     axios.get('http://192.168.43.40:8080/hot10')
                     .then(function (response){
                         if(response.status===200)
@@ -263,7 +372,7 @@ class Searchlist extends React.Component{
                         message.error('hot10获取失败')
                     })
                 .then(()=>{
-                    console.log(99999999)
+                    localStorage.setItem("hot10",JSON.stringify(hot10));
                     console.log(hot10)
                     this.setState({
                         option:{
@@ -321,29 +430,311 @@ class Searchlist extends React.Component{
         }
    
     
-        
+    }
   
 }
     handlsubmit = (e) => {
-        var string = e.target.value;
-        console.log(string);
+
+      
+        console.log(e.target.value);
+        this.id=[]
+        this.pic_url=[]
+        this.title=[]
+        this.description=[]
+        this.content=[]
+        this.href=[]
+      
+            let _this=this
+            let data
+            let hot10
+            let outdata
+
+            axios({
+                method:'post',
+                url:'http://192.168.43.40:8080/homepage_1',
+                params:{
+                    input:e.target.value
+                }
+            })
+                .then(function (response) {
+       
+                    if (response.status === 200){
+                        data = response.data
+                    }
+                    else{
+                        message.warning('请求错误,请稍后再试', 2)
+                    }
+                }).then(()=>{
+                    data.map((item,index)=>{
+                        _this.pic_url.push(item.url)
+                        _this.title.push(item.name)
+                        _this.id.push(item.id)
+                        _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
+                        _this.content.push(item.information)
+                        _this.url.push("")
+                    })
+                 
+                }).then(()=>{
+                    this.setState({
+                        input:e.target.vaule,
+                        length:data.length,
+                        data: Array.from({ length: data.length }).map((_, i) => ({
+                            href: _this.href[i],
+                            title: _this.title[i],
+                            pic:_this.pic_url[i],
+                            description:_this.description[i],
+                            content:_this.content[i], 
+                            url:_this.url[i],
+                          })),
+                    })
+                }).then(()=>{
+                    axios({
+                        method:'post',
+                        url:'http://192.168.43.40:8080/outlink',
+                        params:{
+                            input:e.target.value
+                        }
+                    })
+                        .then(function (response) {
+               
+                            if (response.status === 200){
+                                outdata = response.data
+                            }
+                            else{
+                                message.warning('请求错误,请稍后再试', 2)
+                            }
+                        }).then(()=>{
+                            outdata.map((item,index)=>{
+                                _this.pic_url.push(item.picture)
+                                _this.title.push(item.title)
+                                _this.id.push(item.id)
+                                _this.description.push(item.source) 
+                                _this.content.push(item.content)
+                                _this.url.push(item.url)
+
+                            })
+                            localStorage.setItem("pic_url",JSON.stringify(this.pic_url));
+                            localStorage.setItem("title",JSON.stringify(this.title));
+                            localStorage.setItem("id",JSON.stringify(this.id));
+                            localStorage.setItem("description",JSON.stringify(this.description));
+                            localStorage.setItem("content",JSON.stringify(this.content));
+                            localStorage.setItem("url",JSON.stringify(this.url));
+                        }).then(()=>{
+                            this.setState({
+                                length:data.length+outdata.length,
+                                data: Array.from({ length: data.length+outdata.length }).map((_, i) => ({
+                                    href: _this.href[i],
+                                    title: _this.title[i],
+                                    pic:_this.pic_url[i],
+                                    description:_this.description[i],
+                                    content:_this.content[i], 
+                                    url:_this.url[i]
+                                  })),
+                            })
+                        })
+                })
+                .then(()=>{
+                    axios.get('http://192.168.43.40:8080/hot10')
+                    .then(function (response){
+                        if(response.status===200)
+                         hot10 = response.data
+                        else
+                        message.error('hot10获取失败')
+                    })
+                .then(()=>{
+                    localStorage.setItem("hot10",JSON.stringify(hot10));
+                    console.log(hot10)
+                    this.setState({
+                        option:{
+                            backgroundColor: "#fff",
+                            tooltip: {
+                              pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>"
+                            },
+                            series: [
+                              {
+                                shape: 'circle',
+                                type: "wordCloud",
+                                gridSize: 1,
+                                // Text size range which the value in data will be mapped to.
+                                // Default to have minimum 12px and maximum 60px size.
+                                sizeRange: [12, 60],
+                                // Text rotation range and step in degree. Text will be rotated randomly in range [-90,90] by rotationStep 45
+                                rotationRange: [-45, 0, 45, 90],
+                                // 呈现形状图片， 可选
+                                drawOutOfBound: false,
+                                layoutAnimation: true,
+                                textStyle: {
+                                  fontFamily: 'sans-serif',
+                                  fontWeight: 'bold',
+                                  // Color can be a callback function or a color string
+                                  color: function () {
+                                      // Random color
+                                      return 'rgb(' + [
+                                          Math.round(Math.random() * 160),
+                                          Math.round(Math.random() * 160),
+                                          Math.round(Math.random() * 160)
+                                      ].join(',') + ')';
+                                  }
+                                      },
+                                      emphasis: {
+                                          focus: 'self',
+                                          textStyle: {
+                                              textShadowBlur: 10,
+                                              textShadowColor: '#333'
+                                          }
+                                      },
+                                left: "center",
+                                top: "center",
+                                right: null,
+                                bottom: null,
+                                data: hot10,
+                              }
+                            ]
+                          }
+                    })
+                })
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+          
         
-          this.props.history.push({ pathname : '/searchlist' , state : { input : string }})
+          
+   
+        //this.props.history.push({ pathname : '/searchlist' , state : { input : string }})
     
       }
       handlsubmit1=(e)=>{
-        this.setState({
-          input:''
-        })
-        this.props.history.push({ pathname : '/searchlist' , state : { 
-          pet_size :  this.state.pet_size,
-          pet_species:this.state.pet_species,
-          min_price:this.state.min_price,
-          max_price:this.state.max_price
-        }})
+        this.id=[]
+        this.pic_url=[]
+        this.title=[]
+        this.description=[]
+        this.content=[]
+        this.href=[]
+            let _this=this
+            let data
+            let hot10
+           console.log(this.state)
+                axios({
+                    method:'post',
+                    url:'http://192.168.43.40:8080/homepage_2',
+                    params:{
+                        pet_size:this.state.pet_size,
+                        pet_species:this.state.pet_species,
+                        min_price:this.state.min_price,
+                        max_price:this.state.max_price,
+                        country:this.state.country
+                    }
+                })
+                    .then(function (response) {
+                        if (response.status === 200){  
+                            data = response.data
+                        }
+                        else{
+                            message.warning('请求错误,请稍后再试', 2)
+                        }
+                    }).then(()=>{
+                        data.map((item,index)=>{
+                            _this.pic_url.push(item.url)
+                            _this.title.push(item.name)
+                            _this.id.push(item.id)
+                            _this.description.push(item.name+',别名:'+item.nickname+',分布区域:'+item.region+',体型:'+item.shape+',估价:'+item.price)
+                            _this.content.push(item.information)
+                        })
+                        localStorage.setItem("pic_url",JSON.stringify(this.pic_url));
+                        localStorage.setItem("title",JSON.stringify(this.title));
+                        localStorage.setItem("id",JSON.stringify(this.id));
+                        localStorage.setItem("description",JSON.stringify(this.description));
+                        localStorage.setItem("content",JSON.stringify(this.content));
+                        
+                    }).then(()=>{
+                        this.setState({
+                            drawer_visible:false,
+                            length:data.length,
+                            data: Array.from({ length: data.length }).map((_, i) => ({
+                                href: this.href[i],
+                                title: this.title[i],
+                                pic:this.pic_url[i],
+                                description:this.description[i],
+                                content:this.content[i], 
+                              })),
+                        })
+                    }).then(()=>{
+                        axios.get('http://192.168.43.40:8080/hot10')
+                        .then(function (response){
+                            if(response.status===200)
+                             hot10 = response.data
+                            else
+                            message.error('hot10获取失败')
+                        })
+                    .then(()=>{
+                        localStorage.setItem("hot10",JSON.stringify(hot10));
+                        console.log(hot10)
+                        this.setState({
+                            option:{
+                                backgroundColor: "#fff",
+                                tooltip: {
+                                  pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>"
+                                },
+                                series: [
+                                  {
+                                    shape: 'circle',
+                                    type: "wordCloud",
+                                    gridSize: 1,
+                                    // Text size range which the value in data will be mapped to.
+                                    // Default to have minimum 12px and maximum 60px size.
+                                    sizeRange: [12, 60],
+                                    // Text rotation range and step in degree. Text will be rotated randomly in range [-90,90] by rotationStep 45
+                                    rotationRange: [-45, 0, 45, 90],
+                                    // 呈现形状图片， 可选
+                                    drawOutOfBound: false,
+                                    layoutAnimation: true,
+                                    textStyle: {
+                                      fontFamily: 'sans-serif',
+                                      fontWeight: 'bold',
+                                      // Color can be a callback function or a color string
+                                      color: function () {
+                                          // Random color
+                                          return 'rgb(' + [
+                                              Math.round(Math.random() * 160),
+                                              Math.round(Math.random() * 160),
+                                              Math.round(Math.random() * 160)
+                                          ].join(',') + ')';
+                                      }
+                                          },
+                                          emphasis: {
+                                              focus: 'self',
+                                              textStyle: {
+                                                  textShadowBlur: 10,
+                                                  textShadowColor: '#333'
+                                              }
+                                          },
+                                    left: "center",
+                                    top: "center",
+                                    right: null,
+                                    bottom: null,
+                                    data: hot10,
+                                  }
+                                ]
+                              }
+                        })
+                    })
+                })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            
+            
+          
+          
       }
       adsearch=(e)=>{
         this.setState({
+            pet_species:1,
+            pet_size:4,
+            min_price:0,
+            max_price:100000,
+            country:'中国',
           drawer_visible:true
         })
       }
@@ -352,24 +743,92 @@ class Searchlist extends React.Component{
           drawer_visible:false
         })
       }
-      changespecies=(e)=>{
+      changespecies=(checkedValues) => {
+        console.log('checked = ', checkedValues);
+        if(checkedValues.includes('猫猫')&&checkedValues.includes('狗狗'))
+          this.setState({
+            pet_species:2
+          })
+        else if (checkedValues.includes('猫猫'))
         this.setState({
-          pet_species:e.target.value
+          pet_species:0
+        })
+        else if (checkedValues.includes('狗狗'))
+        this.setState({
+          pet_species:1
+        })
+        else if(!checkedValues.includes('猫猫')&&!checkedValues.includes('狗狗'))
+        this.setState({
+          pet_species:2
+        })
+      };
+      changesize=(checkedValues) => {
+        console.log('checked = ', checkedValues);
+        if(checkedValues.includes('小型')&&checkedValues.includes('中型')&&checkedValues.includes('大型'))
+          this.setState({
+            pet_size:7
+          })
+        else if (checkedValues.includes('小型')&&checkedValues.includes('中型'))
+        this.setState({
+          pet_size:6
+        })
+        else if (checkedValues.includes('小型')&&checkedValues.includes('大型'))
+        this.setState({
+          pet_size:5
+        })
+        else if (checkedValues.includes('中型')&&checkedValues.includes('大型'))
+        this.setState({
+          pet_size:3
+        })
+        else if (checkedValues.includes('中型'))
+        this.setState({
+          pet_size:2
+        })
+        else if (checkedValues.includes('小型'))
+        this.setState({
+          pet_size:4
+        })
+        else if (checkedValues.includes('大型'))
+        this.setState({
+          pet_size:1
+        })
+        else{
+          this.setState({
+            pet_size:7
+          })
+        }
+      };
+      minichange=(e)=>{
+        console.log(e.target.value)
+        this.setState({
+          min_price:e.target.value
         })
       }
-      changesize=(e)=>{
+      maxchange=(e)=>{
+        console.log(e.target.value)
         this.setState({
-          pet_size:e.target.value
+          max_price:e.target.value
+        })
+      }
+      changecountry=(e)=>{
+        console.log(e.target.value)
+        this.setState({
+          country:e.target.value
         })
       }
       todetail=(e)=>{
-          console.log(e.target.id)
+          console.log(e.target.name)
+          if(e.target.name!=="")
+          window.location.href=e.target.name
+          else{
             this.setState({
                 id:e.target.id
             })
           this.props.history.push({ pathname : '/showpage' , state : { 
-            id : this.state.id,
+            id : e.target.id,
           }})
+          }
+           
       }
       
 
@@ -442,7 +901,7 @@ class Searchlist extends React.Component{
                     >
                         <List.Item.Meta
                         
-                        title={<a onClick={this.todetail} id={item.id}>{item.title}</a>}
+                        title={<a name={item.url} onClick={this.todetail} id={item.id}>{item.title}</a>}
                         description={item.description}
                         />
                         {item.content}
@@ -486,10 +945,9 @@ class Searchlist extends React.Component{
                 >
                     <div >
                     <span>宠物类别 : </span>&nbsp;&nbsp;&nbsp;
-                    <Radio.Group onChange={this.changespecies} value={this.state.pet_species}>
-                        <Radio value={"dog"}>狗狗</Radio>
-                        <Radio value={"cat"}>猫猫</Radio>
-                    </Radio.Group>
+          <Checkbox.Group options={this.plainOptions} defaultValue={['狗狗']}  
+          onChange={this.changespecies} />
+          
                     </div>
                     <br/>
                     <div >
@@ -502,6 +960,7 @@ class Searchlist extends React.Component{
                             height:25
                             }}
                             placeholder="Minimum"
+                            onChange={this.minichange}
                         />
                         <Input
                             className="site-input-split"
@@ -523,6 +982,7 @@ class Searchlist extends React.Component{
                             height:25
                             }}
                             placeholder="Maximum"
+                            onChange={this.maxchange}
                         />
                         </Input.Group>
                     <br/>
@@ -536,16 +996,13 @@ class Searchlist extends React.Component{
                             height:25
                             }}
                             placeholder="中国"
+                            onChange={this.changecountry}
                         />
                     </div> 
                     <div >
                     <br/>
                     <span>宠物体型 : </span>&nbsp;&nbsp;&nbsp;
-                    <Radio.Group onChange={this.changesize} value={this.state.pet_size}>
-                        <Radio value={"small"}>小型</Radio>
-                        <Radio value={"medium"}>中型</Radio>
-                        <Radio value={"large"}>大型</Radio>
-                    </Radio.Group>
+          <Checkbox.Group options={this.plainOptions1} defaultValue={['小型']} onChange={this.changesize} />
                     </div>
                     <div>
                     <br/> <br/> <br/> 
