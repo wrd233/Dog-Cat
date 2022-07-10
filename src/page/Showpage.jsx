@@ -103,12 +103,13 @@ async componentDidMount () {
     }).then(function(response){
         console.log(response)
         res = response
-        this.setState({
-            QAitems:[],
-            starList:[],
-            detailForTable:[],
-            detailForList:[],
-        })
+        QAitems = []
+    
+        starList = []
+        
+        detailForTable = []
+        
+        detailForList = []
         /*--------- 组装starList ---------*/
         starList.push({key:"粘 人 程 度",value:response.data.clingyLevel})
         starList.push({key:"喜 叫 程 度",value:response.data.noisyLevel})
