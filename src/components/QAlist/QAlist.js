@@ -14,7 +14,7 @@ class QAlist extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            QAitems:props.QAitems,      // 所有的QA项目
+            QAitems:[],      // 所有的QA项目
             petID:props.petID,
             // isModalVisible:false,
             visible:false,
@@ -25,13 +25,47 @@ class QAlist extends Component{
         }
     }
     // [ToDo]:在渲染这个之前得到QA
-    componentDidMount () {
+    async componentDidMount () {
+        let answerlist = []
         // [ToDo]：从后端获得当前petID对应的QAlist并将其赋值到这个状态中
-        axios({
+        await axios({
         method:'get',
         url:'http://192.168.43.40:8080/showQuestion?id='+this.state.petID, 
         }).then(function(response){
-            console.log(response)
+            // [ToDo]组装QAitems
+            console.log(response.data)
+            for (let que of response.data){
+                answerlist.push({
+                    id:que.id,
+                    title:que.title,
+                    content:que.content,
+                })
+            }
+        })
+        this.setState({
+            QAitems:answerlist
+        })
+    }
+
+    async renew(){
+        let answerlist = []
+        // [ToDo]：从后端获得当前petID对应的QAlist并将其赋值到这个状态中
+        await axios({
+        method:'get',
+        url:'http://192.168.43.40:8080/showQuestion?id='+this.state.petID, 
+        }).then(function(response){
+            // [ToDo]组装QAitems
+            console.log(response.data)
+            for (let que of response.data){
+                answerlist.push({
+                    id:que.id,
+                    title:que.title,
+                    content:que.content,
+                })
+            }
+        })
+        this.setState({
+            QAitems:answerlist
         })
     }
 
@@ -66,9 +100,12 @@ class QAlist extends Component{
         });
         console.log("上传成功")
         console.log(values);
+        this.renew()
       };
 
     checkAnswer = (e,ID) => {
+        console.log("ID:")
+        console.log(ID)
         this.setState({
             visible:true,
             questionToShow:ID,
@@ -110,7 +147,7 @@ class QAlist extends Component{
                     <List.Item.Meta
                     avatar={<Avatar src={item.avatar} />}
                     title={
-                        <a onClick={(e) => { this.checkAnswer(e,item.questionID); } }>
+                        <a onClick={(e) => { this.checkAnswer(e,item.id); } }>
                             {item.title}
                         </a>}
                     description={item.description}
@@ -121,7 +158,7 @@ class QAlist extends Component{
             />
             <Drawer title="问答详情" placement="bottom" onClose={this.onClose} visible={this.state.visible}>
                 {/* {answerElements} */}
-                <List
+                {/* <List
                     itemLayout="horizontal"
                     dataSource={this.state.answersToShow}
                     renderItem={item => (
@@ -134,7 +171,8 @@ class QAlist extends Component{
                         </Card>
                     </List.Item>
                     )}
-                    />
+                    /> */}
+                    <Answers QuestionID={this.state.questionToShow}/>
             </Drawer>
 
             <Modal
