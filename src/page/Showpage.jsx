@@ -40,14 +40,6 @@ const { Header, Content, Footer } = Layout;
 //     }
 // ]
 
-//     // {
-//     //     questionID:123,
-//     //     title: `问到狗肉香，耶稣也跳墙`,
-//     //     content:'请问狗肉真的有这么香吗？另外耶稣跳墙的时候是先迈右脚还是先迈左脚？耶稣能不能创造一个他跳不过的墙？',
-//     // }
-
-//     // [{},{}]
-
 // const starList = [
 //     {key:'粘 人 程 度',value:3},
 //     {key:'喜 叫 程 度',value:3},
@@ -111,34 +103,35 @@ async componentDidMount () {
         console.log(response)
         res = response
         /*--------- 组装starList ---------*/
-        starList.push({key:"粘人程度",value:response.data.clingyLevel})
-        starList.push({key:"喜叫程度",value:response.data.noisyLevel})
-        starList.push({key:"友善程度",value:response.data.friendLevel})
-        starList.push({key:"掉毛程度",value:response.data.hairShedLevel})
-        starList.push({key:"美容程度",value:response.data.cosmetologyLevel})
-        starList.push({key:"体味程度",value:response.data.odourLevel})
-        starList.push({key:"口水程度",value:response.data.slobberLevel})
+        starList.push({key:"粘 人 程 度",value:response.data.clingyLevel})
+        starList.push({key:"喜 叫 程 度",value:response.data.noisyLevel})
+        starList.push({key:"友 善 程 度",value:response.data.friendLevel})
+        starList.push({key:"掉 毛 程 度",value:response.data.hairShedLevel})
+        starList.push({key:"美 容 程 度",value:response.data.cosmetologyLevel})
+        starList.push({key:"体 味 程 度",value:response.data.odourLevel})
+        starList.push({key:"口 水 程 度",value:response.data.slobberLevel})
 
-        starList.push({key:"可训程度",value:response.data.trainLevel})
-        starList.push({key:"活跃程度",value:response.data.activeLevel})
-        starList.push({key:"友善程度",value:response.data.cityLevel})
-        starList.push({key:"城市适度",value:response.data.coldLevel})
-        starList.push({key:"耐寒程度",value:response.data.heatLevel})
-        starList.push({key:"耐热程度",value:response.data.sportsLevel})
-        starList.push({key:"运动程度",value:response.data.information})
+        starList.push({key:"可 训 程 度",value:response.data.trainLevel})
+        starList.push({key:"活 跃 程 度",value:response.data.activeLevel})
+        starList.push({key:"友 善 程 度",value:response.data.cityLevel})
+        starList.push({key:"城 市 适 度",value:response.data.coldLevel})
+        starList.push({key:"耐 寒 程 度",value:response.data.heatLevel})
+        starList.push({key:"耐 热 程 度",value:response.data.sportsLevel})
+        starList.push({key:"运 动 程 度",value:response.data.information})
 
         // ToDo:遍历一遍列表，把value是非数字的项替换为0
 
         /*--------- 组装detailForTable ---------*/
         detailForTable.push({key:"中文学名",value:response.data.chineseName})
-        detailForTable.push({key:"别名",value:response.data.alias})
+        detailForTable.push({key:"别　　名",value:response.data.alias})
         detailForTable.push({key:"分布区域",value:response.data.region})
-        detailForTable.push({key:"原产地",value:response.data.habitat})
-        detailForTable.push({key:"体型",value:response.data.shape})
-        detailForTable.push({key:"身高",value:response.data.height})
-        detailForTable.push({key:"体重",value:response.data.weight})
-        detailForTable.push({key:"寿命",value:response.data.lifetime})
+        detailForTable.push({key:"原 产 地",value:response.data.habitat})
+        detailForTable.push({key:"体　　型",value:response.data.shape})
+        detailForTable.push({key:"身　　高",value:response.data.height})
+        detailForTable.push({key:"体　　重",value:response.data.weight})
+        detailForTable.push({key:"寿　　命",value:response.data.lifetime})
         // ToDo:遍历一遍列表，把字符间的空格统一一下
+
         /*--------- 组装detailForList ---------*/
         detailForList.push({header:"基本信息",context:response.data.information})
         detailForList.push({header:"性格特点",context:response.data.characteristics})
@@ -182,11 +175,17 @@ render(){
             />
             </Col>
             <Col span={16}>
-                <h1>{this.state.name}</h1>
-                <p>
-                    参考价格:<strong>{this.state.price}</strong>
+                <div className="petname">
+                    <h1>{this.state.name}</h1>
+                </div>
+                <p className="price">
+                    <span className="cankao">
+                        参考价格:
+                        <strong>{this.state.price}</strong>
+                        元
+                    </span>
                 </p>
-                <DetailTable details={this.state.detailForTable}/>
+                <DetailTable className="detail_table" details={this.state.detailForTable}/>
                 <Stars starList={this.state.starList}/>
             </Col>
         </Row>

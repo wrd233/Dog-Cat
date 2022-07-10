@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { Descriptions } from 'antd';
-
+import './detailTable.css'
 
 /*
 ToDoList:
@@ -19,7 +19,7 @@ class DetailTable extends Component{
         const detailElements = []
         for (let detail of this.props.details) {
             detailElements.push(
-                <Descriptions.Item label={detail.key}>
+                <Descriptions.Item label={detail.key} labelStyle={{color:"dimgray"}}>
                     {detail.value}
                 </Descriptions.Item>
             )
