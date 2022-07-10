@@ -7,8 +7,8 @@ class Answers extends Component{
         super(props);
         this.state = {
             QuestionID:props.QuestionID,
-            // title:props.title,
-            // content:props,content,
+            title:props.title,
+            content:props.content,
             answers:[],
             isModal:false,
             isLoading:false,
@@ -22,13 +22,14 @@ class Answers extends Component{
     };
 
     // [ToDo]:根据QuestionID获得回答的列表
-    async componentWillMount () {
+    async componentDidMount () {
         // [ToDo]：从后端获得当前petID对应的QAlist并将其赋值到这个状态中
         // console.log(this.state.QuestionID)
         let answerlist = []
+        console.log("尝试获取的qid为:"+this.props.QuestionID)
         await axios({
         method:'get',
-        url:'http://192.168.43.40:8080/showAnswer?id='+this.state.QuestionID, 
+        url:'http://192.168.43.40:8080/showAnswer?id='+this.props.QuestionID, 
         }).then(function(response){
             console.log(response)
             for (let ans of response.data){
@@ -45,9 +46,10 @@ class Answers extends Component{
 
     async renew () {
         let answerlist = []
+        console.log("尝试获取的qid为:"+this.props.QuestionID)
         await axios({
         method:'get',
-        url:'http://192.168.43.40:8080/showAnswer?id='+this.state.QuestionID, 
+        url:'http://192.168.43.40:8080/showAnswer?id='+this.props.QuestionID, 
         }).then(function(response){
             console.log(response)
             for (let ans of response.data){
@@ -75,7 +77,7 @@ class Answers extends Component{
 
         await axios({
             method:'get',
-            url:'http://192.168.43.40:8080/Answer_submit?id='+this.state.QuestionID+'&content='+values.content, 
+            url:'http://192.168.43.40:8080/Answer_submit?id='+this.props.QuestionID+'&content='+values.content, 
             }).then(function(response){
                 console.log(response)
             })
@@ -91,26 +93,24 @@ class Answers extends Component{
       };
 
     render(){
-        // const answerElements = []
-        // for (let ans of this.state.answers){
-        //     answerElements.push(
-        //         <p>
-        //             {ans.content}
-        //         </p>
-        //     )
-        // }
+        if(this.state.QuestionID != this.props.QuestionID){
+            this.setState({
+                QuestionID:this.props.QuestionID
+            })
+            this.renew()
+        }
         return(
             <>
+            <div className='question'>
+                <p>{this.props.title}</p>
+                <p>问题简述：{this.props.content}</p>
+            </div>
             <Button
                 type="primary"
                 onClick={this.showModal}
             >
                 我要回答
             </Button>
-            <div className='question'>
-                <p>{this.state.title}</p>
-                <p>{this.state.content}</p>
-            </div>
             <List
                 itemLayout="horizontal"
                 dataSource={this.state.answers}
