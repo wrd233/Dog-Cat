@@ -161,7 +161,7 @@ class QAlist extends Component{
                 )}
             />
             <Drawer title="问答详情" placement="bottom" onClose={this.onClose} visible={this.state.visible}>
-                    <Answers QuestionID={this.state.questionToShow} title={this.state.title} content={this.state.content}/>
+                    <Answers QuestionID={this.state.questionToShow} title={this.state.answerToShowTitle} content={this.state.answerToShowTitleContent}/>
             </Drawer>
 
             <Modal
