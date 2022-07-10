@@ -26,12 +26,12 @@ class Searchlist extends React.Component{
         id:0,
         length:0,
         drawer_visible:false,
-        pet_species:this.props.location.state.pet_species,
-        pet_size:this.props.location.state.pet_size,
-        min_price:this.props.location.state.min_price,
-        max_price:this.props.location.state.max_price,
-        country:this.props.location.state.country,
-        input:this.props.location.state.input,
+        pet_species:this.props.location.state.pet_species===undefined?1:this.props.location.state.pet_species,
+        pet_size:this.props.location.state.pet_size===undefined?4:this.props.location.state.pet_siz,
+        min_price:this.props.location.state.min_price===undefined?0:this.props.location.state.min_price,
+        max_price:this.props.location.state.max_price===undefined?100000:this.props.location.state.max_price,
+        country:this.props.location.state.country===undefined?'中国':this.props.location.state.country,
+        input:this.props.location.state.input===undefined?undefined:this.props.location.state.input,
         data: 
         Array.from({ length: 3 }).map((_, i) => ({
             href: this.href[i],
@@ -92,6 +92,7 @@ class Searchlist extends React.Component{
           
     }
       componentWillMount () {
+        
         this.pic_url=JSON.parse(localStorage.getItem("pic_url"));
         this.title=JSON.parse(localStorage.getItem("title"));
         this.id=JSON.parse(localStorage.getItem("id"));
